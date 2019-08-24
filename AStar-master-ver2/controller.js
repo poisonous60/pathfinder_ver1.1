@@ -105,26 +105,33 @@ function mouseClicked() {
             mapGraphic = null;
           } else if (__click_mode == 4) {
             let swi = false;
+			
             for (var i = 0; i < pathfinder.closedSet.length; i++) {
               let node = pathfinder.closedSet[i];
               if (node === click_node) {
                 console.log("close -> nothing")
                 pathfinder.closedSet.splice(i, 1);
                 swi = true;
+				break;
               }
+			  
             }
-            for (var i = 0; i < pathfinder.openSet.length; i++) {
-              let node = pathfinder.openSet[i];
-              if (node === click_node) {
-                console.log("open -> close")
-                pathfinder.openSet.splice(i, 1);
-                pathfinder.closedSet.push(node)
-                swi = true;
-              }
-            }
+			if(swi == false) {
+				for (var i = 0; i < pathfinder.openSet.length; i++) {
+				  let node = pathfinder.openSet[i];
+				  if (node === click_node) {
+					console.log("open -> close")
+					pathfinder.openSet.splice(i, 1);
+					pathfinder.closedSet.push(node)
+					swi = true;
+					break;
+				  }
+				  
+				}
+			}
             if (swi == false) {
-              console.log("nothing -> open")
-              pathfinder.openSet.push(click_node)
+              console.log("nothing -> nothing")
+              //pathfinder.openSet.push(click_node)
             }
 
           } else if (__click_mode == 5) {

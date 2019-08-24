@@ -217,8 +217,20 @@ function drawed() {
     // text("status = ", 730, 30);
 
     text("__click_mode = " + __click_mode, 730, 90);
+	text("status2 = " + infoNode.stats, 900, 50);
 	
-	if(infoNode.previous != undefined) infoNode.previous.show(color(55));
+	let pre_arr = [];
+	let pre_index = 255;
+	let info_pre = infoNode.previous;
+	
+	while (info_pre) {
+		pre_arr.push(info_pre);
+		info_pre = info_pre.previous;
+	}
+	//if(infoNode.previous != undefined) infoNode.previous.show(color(55));
+	for(var i in pre_arr) {
+		pre_arr[i].show(color(pre_index -= 2));
+	}		
   }
   
   path = calcPath(pathfinder.lastCheckedNode);
@@ -307,3 +319,4 @@ function drawPath(path) {
   }
   endShape();
 }
+

@@ -35,6 +35,8 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright) {
     // Did the maze algorithm already visit me?
     this.visited = false;
 	
+	this.status = 0; // 0 - nothing, 1 - open, -1 - closed
+	
 	//__click_mode용
 	this.mouseClick_spot = function(x, y) {
 		if(mouseInNode(this)) {

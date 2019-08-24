@@ -5,6 +5,8 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     this.openSet = [];
     // openSet starts with beginning node only
     this.openSet.push(start)
+	start.status = 1;
+	
     this.closedSet = [];
     this.start = start;
     this.end = end;
@@ -89,6 +91,7 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
             // Best option moves from openSet to closedSet
             this.removeFromArray(this.openSet, current);
             this.closedSet.push(current);
+			current.status = -1;
 
             // Check all the neighbors
             var neighbors = current.getNeighbors();
@@ -104,6 +107,7 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
                     // Is this a better path than before?
                     if (!this.openSet.includes(neighbor)) {
                         this.openSet.push(neighbor);
+						neighbor.status = 1;
                     } else if (tempG >= neighbor.g) {
                         // No, it's not a better path
                         continue;
