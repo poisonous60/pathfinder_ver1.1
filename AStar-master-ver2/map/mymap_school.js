@@ -30,10 +30,21 @@ function MyMap_School(cols, rows, x, y, w, h, allowDiagonals, wallRatio) {
 		  isWall = false;
 	  } 
 	  else if (value == "1") {
-        isWall = true;
-      } else {
+        isWall = true;         
+      }
+    else if (value=="2"){
+        isWall = false;
+		Bright = 2;
+        }else if (value=="3"){
+            isWall = false;
+		      Bright = 3;
+        } else if (value=="4"){
+            isWall = false;
+		      Bright = 4;
+        } else {
+        
 		isWall = true;
-		Bright = true;
+		//Bright = true;
       }
 	  
 		// console.error("Row" + Row + " Col" + Col + " isWall" + isWall)

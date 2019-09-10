@@ -92,9 +92,19 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright) {
             rect(this.x, this.y, this.width, this.height);
         }
 
-        if(Bright) {
+        if(Bright > 1 && Bright == 2) {
             stroke(0);
             fill(255, 0, 0);
+            ellipse(this.x, this.y, this.width, this.height);
+        }
+        if(Bright > 1 && Bright == 3) {
+            stroke(0);
+            fill(0, 255, 0);
+            ellipse(this.x, this.y, this.width, this.height);
+        }
+        if(Bright > 1 && Bright == 4) {
+            stroke(0);
+            fill(0, 0, 255);
             ellipse(this.x, this.y, this.width, this.height);
         }
     }

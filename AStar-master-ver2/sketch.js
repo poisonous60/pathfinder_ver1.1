@@ -1,3 +1,5 @@
+var __stair_mul = 2;
+
 var img1;
 //var txt1;
 var mapData; //aFinal.csv 받기

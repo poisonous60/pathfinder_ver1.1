@@ -218,6 +218,7 @@ function drawed() {
 
     text("__click_mode = " + __click_mode, 730, 90);
 	text("status2 = " + infoNode.stats, 900, 50);
+      text("Bright = " + infoNode.Bright, 900, 70);
 	
 	let pre_arr = [];
 	let pre_index = 255;

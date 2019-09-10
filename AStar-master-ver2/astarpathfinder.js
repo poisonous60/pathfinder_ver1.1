@@ -33,6 +33,16 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
         }
         return d;
     }
+    this.Better_heuristic = function(a, b, bright) {
+        var d;
+        if (allowDiagonals) {
+            d = dist(a.i, a.j, b.i, b.j);
+        } else {
+            d = abs(a.i - b.i) + abs(a.j - b.j);
+        }
+        if(bright) d *= __stair_mul;
+        return d;
+    }
 
     // Function to delete element from the array
     this.removeFromArray = function(arr, elt) {
@@ -102,7 +112,7 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
                 // Valid next spot?
                 if (!this.closedSet.includes(neighbor)) {
                     // Is this a better path than before?
-                    var tempG = current.g + this.heuristic(neighbor, current);
+                    var tempG = current.g + this.Better_heuristic(neighbor, current, neighbor.Bright);
 
                     // Is this a better path than before?
                     if (!this.openSet.includes(neighbor)) {
@@ -114,7 +124,7 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
                     }
 
                     neighbor.g = tempG;
-                    neighbor.h = this.heuristic(neighbor, this.end);
+                    neighbor.h = this.Better_heuristic(neighbor, this.end, false);
                     if (!allowDiagonals) {
                         neighbor.vh = this.visualDist(neighbor, this.end);
                     }
