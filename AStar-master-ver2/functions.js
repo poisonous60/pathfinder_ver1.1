@@ -92,10 +92,15 @@ function Button(label, x, y, w, h, callback) {
   }
 }
 
+
+//var __hard_search = null;
+var __hard_search;
 function step(button) {
   pauseUnpause(true);
   stepsAllowed = 1;
 }
+
+
 
 function pauseUnpause(pause) {
   paused = pause;
@@ -175,7 +180,7 @@ function drawed() {
     pathfinder.closedSet[i].show(color(255, 0, 0, 50));
   }
   infoNode = null;
-  infoNode_check();
+  infoNode = infoNode_check();
   pathfinder.start.show(color(255, 0, 255));
   pathfinder.end.show(color(0, 100, 255, 100));
 
@@ -277,7 +282,7 @@ function drawMap() {
         if (pathfinder.map.grid[i][j].wall) {
           pathfinder.map.grid[i][j].show(color(255));
         }
-				if (pathfinder.map.grid[i][j].Bright > 1) pathfinder.map.grid[i][j].show();
+				if (pathfinder.map.grid[i][j].Bright > 1) pathfinder.map.grid[i][j].show(color(255));
       }
     }
     mapGraphic = get(gamemap.x, gamemap.y, gamemap.w, gamemap.h);
@@ -295,9 +300,11 @@ function infoNode_check() {
     let node = pathfinder.openSet[i];
     node.show(color(0, 255, 0, 50));
     if (mouseInNode(node)) {
-      infoNode = node;
-      infoNode.show(color(50, 255, 0, 90));
+      //infoNode = node;
+      //infoNode.show(color(50, 255, 0, 90));
+			node.show(color(50, 255, 0, 90));
       text("status = openSet", 730, 30);
+			return node;
     }
   }
   if (pathfinder.closedSet != null) {
@@ -305,9 +312,11 @@ function infoNode_check() {
       let node = pathfinder.closedSet[i];
       // node.show(color(255, 0, 0, 50));
       if (mouseInNode(node)) {
-        infoNode = node;
-        infoNode.show(color(255, 20, 0, 90));
+        //infoNode = node;
+        //infoNode.show(color(255, 20, 0, 90));
+				node.show(color(255, 20, 0, 90));
         text("status = closedSet", 730, 30);
+				return node;
       }
     }
   }

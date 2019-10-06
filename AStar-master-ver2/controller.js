@@ -54,7 +54,7 @@ function keyTyped() {
   if (key === 'k') {
     console.log('k : __click_mode change');
     __click_mode++;
-    if (__click_mode > 9) {
+    if (__click_mode > 10) {
       __click_mode = 0;
     }
   }
@@ -178,6 +178,10 @@ function mouseClicked() {
 					} else if (__click_mode == 9) {
 						console.log("Show your neighbors!");
 						
+					}	else if (__click_mode == 10) {
+						console.log("Search this.");
+						__hard_search = click_node;
+						step();
 					}
 					
         }

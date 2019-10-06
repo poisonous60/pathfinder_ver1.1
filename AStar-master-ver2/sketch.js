@@ -80,6 +80,7 @@ function initaliseSearchExample() {
 		pathfinder.start = start;
 		pathfinder.end = end;
 		pathfinder.openSet.push(start)
+		pathfinder.lastCheckedNode = start;
 	}
 
 	restartIndex++;

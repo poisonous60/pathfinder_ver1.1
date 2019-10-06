@@ -58,37 +58,44 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     //returns 1 if goal reached
     //returns -1 if no solution
     this.step = function() {
-
+				
         if (this.openSet.length > 0) {
-
-            // Best next option
-            var winner = 0;
-            for (var i = 1; i < this.openSet.length; i++) {
-                if (this.openSet[i].f < this.openSet[winner].f) {
-                    winner = i;
-                }
-                //if we have a tie according to the standard heuristic
-                if (this.openSet[i].f == this.openSet[winner].f) {
-                    //Prefer to explore options with longer known paths (closer to goal)
-                    if (this.openSet[i].g > this.openSet[winner].g) {
-                        winner = i;
-                    }
-                    //if we're using Manhattan distances then also break ties
-                    //of the known distance measure by using the visual heuristic.
-                    //This ensures that the search concentrates on routes that look
-                    //more direct. This makes no difference to the actual path distance
-                    //but improves the look for things like games or more closely
-                    //approximates the real shortest path if using grid sampled data for
-                    //planning natural paths.
-                    if (!this.allowDiagonals) {
-                        if (this.openSet[i].g == this.openSet[winner].g &&
-                            this.openSet[i].vh < this.openSet[winner].vh) {
-                            winner = i;
-                        }
-                    }
-                }
-            }
-            var current = this.openSet[winner];
+						var current = null;
+						
+						if(__hard_search != null) {
+							current = __hard_search;
+							__hard_search = null;
+						} else {
+							// Best next option
+							var winner = 0;
+							for (var i = 1; i < this.openSet.length; i++) {
+									if (this.openSet[i].f < this.openSet[winner].f) {
+											winner = i;
+									}
+									//if we have a tie according to the standard heuristic
+									if (this.openSet[i].f == this.openSet[winner].f) {
+											//Prefer to explore options with longer known paths (closer to goal)
+											if (this.openSet[i].g > this.openSet[winner].g) {
+													winner = i;
+											}
+											//if we're using Manhattan distances then also break ties
+											//of the known distance measure by using the visual heuristic.
+											//This ensures that the search concentrates on routes that look
+											//more direct. This makes no difference to the actual path distance
+											//but improves the look for things like games or more closely
+											//approximates the real shortest path if using grid sampled data for
+											//planning natural paths.
+											if (!this.allowDiagonals) {
+													if (this.openSet[i].g == this.openSet[winner].g &&
+															this.openSet[i].vh < this.openSet[winner].vh) {
+															winner = i;
+													}
+											}
+									}
+							}
+							current = this.openSet[winner];
+						}						
+						
             this.lastCheckedNode = current;
 
             // Did I finish?
@@ -100,11 +107,14 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
             // Best option moves from openSet to closedSet
             this.removeFromArray(this.openSet, current);
             this.closedSet.push(current);
-			current.status = -1;
 
             // Check all the neighbors
             var neighbors = current.getNeighbors();
-
+						if(neighbors.length == undefined) {
+							let temp_nei = neighbors;
+							neighbors = [];
+							neighbors.push(temp_nei);
+						}
             for (var i = 0; i < neighbors.length; i++) {
                 var neighbor = neighbors[i];
 
@@ -116,7 +126,6 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
                     // Is this a better path than before?
                     if (!this.openSet.includes(neighbor)) {
                         this.openSet.push(neighbor);
-						neighbor.status = 1;
                     } else if (tempG >= neighbor.g) {
                         // No, it's not a better path
                         continue;

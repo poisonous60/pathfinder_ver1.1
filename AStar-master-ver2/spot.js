@@ -88,31 +88,32 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index) {
                 }
             }
 						pop();
-        } else if (color) {
+        } else if (color != null) {
             fill(color);
             noStroke();
             rect(this.x, this.y, this.width, this.height);
         }
-
-        if(Bright == 2) {
+	
+				if(this.Bright == 2) {
 						ellipseMode(CORNER)
-            stroke(0);
-            fill(255, 0, 0);
-            ellipse(this.x, this.y, this.width, this.height);
-        }
-        if(Bright == 3) {
+						stroke(0);
+						fill(255, 0, 0);
+						ellipse(this.x, this.y, this.width, this.height);
+				}
+				if(this.Bright == 3) {
 						ellipseMode(CORNER)
-            stroke(0);
-            fill(0, 255, 0);
-            ellipse(this.x, this.y, this.width, this.height);
-        }
-        if(Bright == 4) {
+						stroke(0);
+						fill(0, 255, 0);
+						ellipse(this.x, this.y, this.width, this.height);
+				}
+				if(this.Bright == 4) {
 						ellipseMode(CORNER)
-            stroke(0);
-            fill(0, 0, 255);
-            ellipse(this.x, this.y, this.width, this.height);
-        }
-    }
+						stroke(0);
+						fill(0, 0, 255);
+						ellipse(this.x, this.y, this.width, this.height);
+				}
+			
+		}
 
     this.getNeighbors = function() {
         if (!this.neighbors) {
