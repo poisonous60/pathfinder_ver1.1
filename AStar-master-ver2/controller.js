@@ -79,7 +79,7 @@ function keyTyped() {
   }
 
 }
-
+var mode7_lock;
 function mouseClicked() {
   for (let i = 0; i < uiElements.length; i++) {
     uiElements[i].mouseClick(mouseX, mouseY);
@@ -89,6 +89,7 @@ function mouseClicked() {
       for (let mapX = 0; mapX < mapData.getColumnCount(); mapX++) {
 
         let click_node = pathfinder.map.grid[mapY][mapX].mouseClick_spot(mouseX, mouseY);
+				let click_node_info = {"mapY" : mapY, "mapX" : mapX}
         if (click_node != null) {
           if (__click_mode == 1) {
             console.log("출발 위치 재설정");
@@ -112,27 +113,27 @@ function mouseClicked() {
                 console.log("close -> nothing")
                 pathfinder.closedSet.splice(i, 1);
                 swi = true;
-				break;
+								break;
               }
 			  
             }
-			if(swi == false) {
-				for (var i = 0; i < pathfinder.openSet.length; i++) {
-				  let node = pathfinder.openSet[i];
-				  if (node === click_node) {
-					console.log("open -> close")
-					pathfinder.openSet.splice(i, 1);
-					pathfinder.closedSet.push(node)
-					swi = true;
-					break;
-				  }
-				  
-				}
-			}
-            if (swi == false) {
-              console.log("nothing -> nothing")
-              //pathfinder.openSet.push(click_node)
-            }
+						if(swi == false) {
+							for (var i = 0; i < pathfinder.openSet.length; i++) {
+								let node = pathfinder.openSet[i];
+								if (node === click_node) {
+									console.log("open -> close")
+									pathfinder.openSet.splice(i, 1);
+									pathfinder.closedSet.push(node)
+									swi = true;
+									break;
+								}
+								
+							}
+						}
+						if (swi == false) {
+							console.log("nothing -> open")
+							pathfinder.openSet.push(click_node)
+						}
 
           } else if (__click_mode == 5) {
             console.log("B.")
@@ -142,7 +143,43 @@ function mouseClicked() {
             console.log("BBBBright!!!!")
             Bright2.push(click_node);
 
-          }
+          } else if (__click_mode == 7) {
+						var mode7_node1, mode7_node2;
+						if(mode7_lock == undefined || mode7_lock == 2) mode7_lock = 0;
+						else mode7_lock++;
+						
+						console.error("mode7_lock " + mode7_lock)
+						switch (mode7_lock) {
+							case 0:
+								console.log("warp making");
+								console.log("select node1")
+								node1 = click_node;
+								break;
+							case 1:
+								console.log("select node2")
+								node2 = click_node;
+								break;
+							case 2:
+								console.log("changing....");
+								node1.Bright = 2;
+								node2.Bright = 4;
+								console.log("Maybe Okay");
+								mapGraphic = null;
+								break;
+							default:
+								console.error("어 뭔가 에러떴어요.")
+							
+						}
+						
+					} else if (__click_mode == 8) {
+						console.log("bright -> 2");
+						click_node.Bright = 2;
+						mapGraphic = null;
+					} else if (__click_mode == 9) {
+						console.log("Show your neighbors!");
+						
+					}
+					
         }
 
 
@@ -150,6 +187,9 @@ function mouseClicked() {
     }
 
   }
+}
+
+function mouseReleased() {
 }
 
 function saveMap() {

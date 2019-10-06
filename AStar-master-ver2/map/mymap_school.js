@@ -1,4 +1,4 @@
-function MyMap_School(cols, rows, x, y, w, h, allowDiagonals, wallRatio) {
+function MyMap_School(cols, rows, x, y, w, h, allowDiagonals, wallRatio, index) {
   this.cols = cols;
   this.rows = rows;
   this.x = x;
@@ -9,10 +9,10 @@ function MyMap_School(cols, rows, x, y, w, h, allowDiagonals, wallRatio) {
 
   this.grid = [];
   this.path = [];
-
+	this.index = index;
 
   // Making a 2D array
-  for (var i = 0; i < cols; i++) {
+  for (var i = 0; i < rows; i++) {
     this.grid[i] = [];
   }
 
@@ -34,21 +34,20 @@ function MyMap_School(cols, rows, x, y, w, h, allowDiagonals, wallRatio) {
       }
     else if (value=="2"){
         isWall = false;
-		Bright = 2;
-        }else if (value=="3"){
-            isWall = false;
-		      Bright = 3;
-        } else if (value=="4"){
-            isWall = false;
-		      Bright = 4;
-        } else {
-        
-		isWall = true;
-		//Bright = true;
-      }
-	  
-		// console.error("Row" + Row + " Col" + Col + " isWall" + isWall)
-      this.grid[Row][Col] = new Spot(Row, Col, x + Col * w / cols, y + Row * h / rows, w / cols, h / rows, isWall, this.grid, Bright);
+				Bright = 2;
+    }	else if (value=="3"){
+        isWall = false;
+		    Bright = 3;
+    } else if (value=="4"){
+        isWall = false;
+		    Bright = 4;
+    } else {    
+			isWall = true;
+			//Bright = true;
+    }
+	  //let err = "Row " + Row + " Col " + Col + " x + Col * w / cols " + (x + Col * w / cols) + " y + Row * h / rows " + (y + Row * h / rows) + " w / cols " + (w / cols) + " h / rows " + (h / rows) + " isWall " + isWall + " Bright " + Bright;
+		//console.error(err);
+    this.grid[Row][Col] = new Spot(Row, Col, x + Col * w / cols, y + Row * h / rows, w / cols, h / rows, isWall, this.grid, Bright, index);
     }
   }
 

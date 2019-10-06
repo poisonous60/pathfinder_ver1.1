@@ -5,7 +5,6 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     this.openSet = [];
     // openSet starts with beginning node only
     this.openSet.push(start)
-	start.status = 1;
 	
     this.closedSet = [];
     this.start = start;

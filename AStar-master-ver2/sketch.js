@@ -62,17 +62,25 @@ var restartIndex = 0;
 
 
 function initaliseSearchExample() {
-
+	
   mapGraphic = null;
-  gamemap = new MapFactory().getMap(cols, rows, 10, 100, 1498, 1098, allowDiagonals, percentWalls); /////***** y 값 10->100
-  if(restartIndex == 0) {
-	start = gamemap.grid[15][10];
-	end = gamemap.grid[rows - 20][cols - 30];
-  }
-  start.wall = false;
-  end.wall = false;
+  //gamemap = new MapFactory().getMap(cols, rows, 10, 100, 1498, 1098, allowDiagonals, percentWalls); /////***** y 값 10->100
+	
+	if(restartIndex == 0) {
+		gamemap = new MyMap_School(cols, rows, 10, 100, 1498, 1098, allowDiagonals, percentWalls, restartIndex);
+		start = gamemap.grid[1][1];
+		end = gamemap.grid[rows - 2][cols - 3];
+		start.wall = false;
+		end.wall = false;
 
-  pathfinder = new AStarPathFinder(gamemap, start, end, allowDiagonals);
+		pathfinder = new AStarPathFinder(gamemap, start, end, allowDiagonals);
+	} else {
+		pathfinder.openSet = [];
+		pathfinder.closedSet = [];
+		pathfinder.start = start;
+		pathfinder.end = end;
+		pathfinder.openSet.push(start)
+	}
 
 	restartIndex++;
 }

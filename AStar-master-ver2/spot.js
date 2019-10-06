@@ -6,7 +6,7 @@
 // Part 3: https://youtu.be/jwRT4PCT6RU
 
 // An object to describe a spot in the grid
-function Spot(i, j, x, y, width, height, isWall, grid, Bright) {
+function Spot(i, j, x, y, width, height, isWall, grid, Bright, index) {
 
     this.grid = grid;
 
@@ -18,7 +18,8 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright) {
     this.width = width;
     this.height = height;
     this.Bright = Bright;
-
+		this.index = index;
+		
     // f, g, and h values for A*
     this.f = 0;
     this.g = 0;
@@ -51,6 +52,7 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright) {
     // Display me
     this.show = function(color) {
         if (this.wall) {
+						push();
             fill(0);
             noStroke();
 
@@ -85,24 +87,27 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright) {
                         nw.y + nw.height / 2);
                 }
             }
-        } 
-		else if (color) {
+						pop();
+        } else if (color) {
             fill(color);
             noStroke();
             rect(this.x, this.y, this.width, this.height);
         }
 
-        if(Bright > 1 && Bright == 2) {
+        if(Bright == 2) {
+						ellipseMode(CORNER)
             stroke(0);
             fill(255, 0, 0);
             ellipse(this.x, this.y, this.width, this.height);
         }
-        if(Bright > 1 && Bright == 3) {
+        if(Bright == 3) {
+						ellipseMode(CORNER)
             stroke(0);
             fill(0, 255, 0);
             ellipse(this.x, this.y, this.width, this.height);
         }
-        if(Bright > 1 && Bright == 4) {
+        if(Bright == 4) {
+						ellipseMode(CORNER)
             stroke(0);
             fill(0, 0, 255);
             ellipse(this.x, this.y, this.width, this.height);
@@ -174,7 +179,7 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright) {
         }
 
         //Add Diagonals
-
+				
         for (var i = 0; i < 4; i++) {
             var gridX = this.i + DiagonalMoves[i][0];
             var gridY = this.j + DiagonalMoves[i][1];

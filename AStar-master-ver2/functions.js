@@ -196,6 +196,7 @@ function drawed() {
           } else {
             text("status = nothing", 730, 30);
           }
+					
           break;
         }
       }
@@ -213,15 +214,17 @@ function drawed() {
     text("height = " + infoNode.height, 580, 90);
     text("i = " + infoNode.i, 730, 50);
     text("j = " + infoNode.j, 730, 70);
-	text("previous = " + infoNode.previous, 900, 30);
+		text("previous = " + infoNode.previous, 900, 30);
     // text("status = ", 730, 30);
 
     text("__click_mode = " + __click_mode, 730, 90);
-	text("status2 = " + infoNode.stats, 900, 50);
-      text("Bright = " + infoNode.Bright, 900, 70);
+		text("status2 = " + infoNode.stats, 900, 50);
+    text("Bright = " + infoNode.Bright, 900, 70);
+		text("index = " + infoNode.index, 900, 90);
 	
+	//궤적 나오게 하는거. 하얀색 그거.
 	let pre_arr = [];
-	let pre_index = 255;
+	let pre_index = 155;
 	let info_pre = infoNode.previous;
 	
 	while (info_pre) {
@@ -229,8 +232,8 @@ function drawed() {
 		info_pre = info_pre.previous;
 	}
 	//if(infoNode.previous != undefined) infoNode.previous.show(color(55));
-	for(var i in pre_arr) {
-		pre_arr[i].show(color(pre_index -= 2));
+	for(let i in pre_arr) {
+		pre_arr[i].show(color(pre_index -= 1));
 	}		
   }
   
@@ -239,14 +242,30 @@ function drawed() {
   if(path_swi) drawPath(path_d) 
   else drawPath(path);
   
-  for (var i = 0; i < Bright2.length; i++) {
+	//6번 빨간공
+  for (let i = 0; i < Bright2.length; i++) {
+		push();
 		let node = Bright2[i];
 		noStroke();
-        fill(255, 0, 0);
-        ellipse(node.x, node.y, node.width * 2, node.height * 2);
-		
+		ellipseMode(CORNER);
+    fill(255, 0, 0);
+    ellipse(node.x, node.y, node.width * 2, node.height * 2);
+		pop();
 	}
-
+	
+	if(infoNode != undefined) {
+		if(__click_mode == 9) {
+			if(infoNode.neighbors == undefined) {
+				infoNode.show(255, 255, 0, 40);
+				console.log(infoNode.getNeighbors());
+			} else {
+				console.log("infoNode.neighbors.length " + infoNode.neighbors.length)
+				//for(let i = 0; i < infoNode.neighbors.length; i++) {
+				//}
+			}
+		}
+	}
+	
 }
 
 var mapGraphic = null;
@@ -258,6 +277,7 @@ function drawMap() {
         if (pathfinder.map.grid[i][j].wall) {
           pathfinder.map.grid[i][j].show(color(255));
         }
+				if (pathfinder.map.grid[i][j].Bright > 1) pathfinder.map.grid[i][j].show();
       }
     }
     mapGraphic = get(gamemap.x, gamemap.y, gamemap.w, gamemap.h);
