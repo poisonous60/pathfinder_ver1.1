@@ -26,11 +26,14 @@ function keyTyped() {
     console.log(gamemap);
   }
   if (key === 'q') {
-    console.log('q');
+    console.log('q : redraw');
+		/*
     for (var i = 0; i < uiElements.length; i++) {
       uiElements[i].mouseClick(mouseX, mouseY);
       drawed();
     }
+		*/
+		mapGraphic = null;
   }
   if (key === 'r') {
     console.log('세이브했어요!');

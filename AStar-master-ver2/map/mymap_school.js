@@ -23,30 +23,43 @@ function MyMap_School(cols, rows, x, y, w, h, allowDiagonals, wallRatio, index) 
 	
   for (let Row = 0; Row < mapData.getRowCount(); Row++) {
     for (let Col = 0; Col < mapData.getColumnCount(); Col++) {
-      var Bright = false;
+    var Bright = false;
 	  var isWall = false;
 	  var value = mapData.get(Row, Col);
-      if (value == "") {
+    var isNode = undefined;
+		
+		if (value == "") {
 		  isWall = false;
+			isNode = undefined;
 	  } 
 	  else if (value == "1") {
-        isWall = true;         
+        isWall = true;
+				isNode = undefined;
+				Bright = false;				
       }
     else if (value=="2"){
         isWall = false;
 				Bright = 2;
+				isNode = undefined;
     }	else if (value=="3"){
         isWall = false;
 		    Bright = 3;
+				isNode = undefined;
     } else if (value=="4"){
         isWall = false;
 		    Bright = 4;
+				isNode = undefined;
     } else {    
 			isWall = true;
+			isNode = undefined;
 			//Bright = true;
     }
 	  //let err = "Row " + Row + " Col " + Col + " x + Col * w / cols " + (x + Col * w / cols) + " y + Row * h / rows " + (y + Row * h / rows) + " w / cols " + (w / cols) + " h / rows " + (h / rows) + " isWall " + isWall + " Bright " + Bright;
 		//console.error(err);
+		if(value.match('n')) {
+			console.error("Col : " + Col + " Row : " + Row);
+		}
+		
     this.grid[Row][Col] = new Spot(Row, Col, x + Col * w / cols, y + Row * h / rows, w / cols, h / rows, isWall, this.grid, Bright, index);
     }
   }

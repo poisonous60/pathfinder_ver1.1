@@ -6,7 +6,7 @@
 // Part 3: https://youtu.be/jwRT4PCT6RU
 
 // An object to describe a spot in the grid
-function Spot(i, j, x, y, width, height, isWall, grid, Bright, index) {
+function Spot(i, j, x, y, width, height, isWall, grid, Bright, index, node=undefined) {
 
     this.grid = grid;
 
@@ -19,6 +19,7 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index) {
     this.height = height;
     this.Bright = Bright;
 		this.index = index;
+		this.node = node
 		
     // f, g, and h values for A*
     this.f = 0;
@@ -111,6 +112,15 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index) {
 						stroke(0);
 						fill(0, 0, 255);
 						ellipse(this.x, this.y, this.width, this.height);
+				}
+				
+				if(this.node != undefined) {
+					push();
+					stroke(4);
+					noFill();
+					rectMode(CORNER);
+					rect(this.x + this.width * 0.15, this.y + this.height * 0.15, this.width * 0.7, this.height * 0.7);
+					pop();
 				}
 			
 		}
