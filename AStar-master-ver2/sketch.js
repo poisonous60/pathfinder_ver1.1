@@ -1,7 +1,7 @@
 var __stair_mul = 2;
 
 var img1;
-//var txt1;
+var graph;
 var mapData; //aFinal.csv 받기
 // var file;
 var openSet_saveFile;
@@ -92,6 +92,7 @@ function preload() {
   if (__saveOn == true) openSet_saveFile = loadTable('saveFile/openSet.csv', 'csv', 'header');
   if (__saveOn == true) closedSet_saveFile = loadTable('saveFile/closedSet.csv', 'csv', 'header');
   if (__saveOn == true) map_saveFile = loadTable('saveFile/Maaap.csv', 'csv', 'header');
+	graph = loadStrings('map/data/mapdata_school/graph.txt');
 }
 
 function setup() {
@@ -116,7 +117,12 @@ function setup() {
   uiElements.push(new Button("saved", 250, 60, 50, 30, saved));
   uiElements.push(new Button("brightSaved", 300, 60, 80, 30, brightSaved));
   uiElements.push(new Button("mapSaved", 300, 30, 70, 30, mapSaved)) //전체맵의 previous 포함.
-
+	
+	graph = refine_graph(graph);
+	console.error(graph);
+	node_connecting(graph);
+	
+	
   recordTime("Setup");
 }
 

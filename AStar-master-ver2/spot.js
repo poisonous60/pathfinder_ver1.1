@@ -20,6 +20,7 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index, node=undef
     this.Bright = Bright;
 		this.index = index;
 		this.node = node
+		this.node_neighbors = [];
 		
     // f, g, and h values for A*
     this.f = 0;

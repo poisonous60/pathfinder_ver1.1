@@ -10,7 +10,7 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     this.start = start;
     this.end = end;
     this.allowDiagonals = allowDiagonals;
-
+		
     //This function returns a measure of aesthetic preference for
     //use when ordering the openSet. It is used to prioritise
     //between equal standard heuristic scores. It can therefore

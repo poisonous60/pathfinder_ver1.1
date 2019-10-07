@@ -230,6 +230,7 @@ function drawed() {
     text("Bright = " + infoNode.Bright, 900, 70);
 		text("index = " + infoNode.index, 900, 90);
 		text("neighbors = " + infoNode.neighbors, 1000, 90);
+		text("node = " + infoNode.node, 1050, 30);
 	
 	//궤적 나오게 하는거. 하얀색 그거.
 	let pre_arr = [];
