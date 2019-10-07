@@ -54,9 +54,13 @@ function keyTyped() {
   if (key === 'k') {
     console.log('k : __click_mode change');
     __click_mode++;
-    if (__click_mode > 10) {
+    if (__click_mode > 15) {
       __click_mode = 0;
     }
+  }
+	if (key === 'l') {
+    console.log('l : __click_mode change');
+    __click_mode = prompt("__click_mode : "+"");
   }
   if (key === 'd') {
     console.log('d : drawPath()');
@@ -80,6 +84,7 @@ function keyTyped() {
 
 }
 var mode7_lock;
+var mode7_node;
 function mouseClicked() {
   for (let i = 0; i < uiElements.length; i++) {
     uiElements[i].mouseClick(mouseX, mouseY);
@@ -144,27 +149,20 @@ function mouseClicked() {
             Bright2.push(click_node);
 
           } else if (__click_mode == 7) {
-						var mode7_node1, mode7_node2;
-						if(mode7_lock == undefined || mode7_lock == 2) mode7_lock = 0;
+						//var mode7_node; 전역변수로...
+						if(mode7_lock == undefined || mode7_lock == 1) mode7_lock = 0;
 						else mode7_lock++;
 						
 						console.error("mode7_lock " + mode7_lock)
 						switch (mode7_lock) {
 							case 0:
-								console.log("warp making");
-								console.log("select node1")
-								node1 = click_node;
+								mode7_node = click_node;
+								console.log("selected.");
 								break;
 							case 1:
-								console.log("select node2")
-								node2 = click_node;
-								break;
-							case 2:
 								console.log("changing....");
-								node1.Bright = 2;
-								node2.Bright = 4;
+								mode7_node.neighbors = click_node;
 								console.log("Maybe Okay");
-								mapGraphic = null;
 								break;
 							default:
 								console.error("어 뭔가 에러떴어요.")
@@ -172,16 +170,25 @@ function mouseClicked() {
 						}
 						
 					} else if (__click_mode == 8) {
+						if(click_node.Bright == 2) {
+							console.log("bright -> 0");
+						click_node.Bright = 0;
+						} else {
 						console.log("bright -> 2");
 						click_node.Bright = 2;
+						}
 						mapGraphic = null;
 					} else if (__click_mode == 9) {
 						console.log("Show your neighbors!");
-						
+						//drawed 부분에서 if문으로 처리했습니다.
 					}	else if (__click_mode == 10) {
 						console.log("Search this.");
 						__hard_search = click_node;
+						click_node.previous = pathfinder.lastCheckedNode;
 						step();
+					}	else if (__click_mode == 11) {
+						console.log("change lastCheckedNode.");
+						pathfinder.lastCheckedNode = click_node;
 					}
 					
         }

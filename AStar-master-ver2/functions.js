@@ -45,6 +45,7 @@ function SettingBox(label, x, y, isSet, callback) {
     strokeWeight(1);
     stroke(0);
     noFill();
+		ellipseMode(CENTER);
     ellipse(this.x + 10, this.y + 10, 20, 20);
     if (this.isSet) {
       fill(0);
@@ -219,13 +220,16 @@ function drawed() {
     text("height = " + infoNode.height, 580, 90);
     text("i = " + infoNode.i, 730, 50);
     text("j = " + infoNode.j, 730, 70);
-		text("previous = " + infoNode.previous, 900, 30);
+		//text("previous = " + infoNode.previous, 900, 30);
+		if(infoNode.previous == undefined) text("previous = undefined", 900, 30);
+		else text("previous = " + "[" + infoNode.previous.i + "][" + infoNode.previous.j + "]" , 900, 30);
     // text("status = ", 730, 30);
 
     text("__click_mode = " + __click_mode, 730, 90);
 		text("status2 = " + infoNode.stats, 900, 50);
     text("Bright = " + infoNode.Bright, 900, 70);
 		text("index = " + infoNode.index, 900, 90);
+		text("neighbors = " + infoNode.neighbors, 1000, 90);
 	
 	//궤적 나오게 하는거. 하얀색 그거.
 	let pre_arr = [];
