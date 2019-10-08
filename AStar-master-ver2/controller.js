@@ -71,16 +71,18 @@ function keyTyped() {
 	console.log("path_swi " + path_swi); 
 	for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        let node = pathfinder.map.grid[r][c];
-        if (mouseInNode(node)) {
-          path_d = calcPath(node);
-		  console.log("node.previous");
-		  console.log(node.previous);
-		  console.log("path_d");
-		  console.log(calcPath(node));
-          break;
-        }
-      }
+				for(let z in pathfinder.map) {
+					let node = pathfinder.map[z].grid[r][c];
+					if (mouseInNode(node)) {
+						path_d = calcPath(node);
+				console.log("node.previous");
+				console.log(node.previous);
+				console.log("path_d");
+				console.log(calcPath(node));
+						break;
+					}
+				}
+			}
     }
     
   }
@@ -95,110 +97,110 @@ function mouseClicked() {
   if (__click_mode != 0) {
     for (let mapY = 0; mapY < mapData.getRowCount(); mapY++) {
       for (let mapX = 0; mapX < mapData.getColumnCount(); mapX++) {
-
-        let click_node = pathfinder.map.grid[mapY][mapX].mouseClick_spot(mouseX, mouseY);
-				let click_node_info = {"mapY" : mapY, "mapX" : mapX}
-        if (click_node != null) {
-          if (__click_mode == 1) {
-            console.log("출발 위치 재설정");
-            pathfinder.start = click_node;
-            start = click_node;
-          } else if (__click_mode == 2) {
-            console.log("도착 위치 재설정");
-            pathfinder.end = click_node;
-            end = click_node;
-          } else if (__click_mode == 3) {
-            console.log("벽토글");
-            pathfinder.map.grid[mapY][mapX].wall = !pathfinder.map.grid[mapY][mapX].wall;
-            console.log(pathfinder.map.grid[mapY][mapX].wall);
-            mapGraphic = null;
-          } else if (__click_mode == 4) {
-            let swi = false;
-			
-            for (var i = 0; i < pathfinder.closedSet.length; i++) {
-              let node = pathfinder.closedSet[i];
-              if (node === click_node) {
-                console.log("close -> nothing")
-                pathfinder.closedSet.splice(i, 1);
-                swi = true;
-								break;
-              }
-			  
-            }
-						if(swi == false) {
-							for (var i = 0; i < pathfinder.openSet.length; i++) {
-								let node = pathfinder.openSet[i];
+				for(let z in pathfinder.map) {
+					let click_node = pathfinder.map[z].grid[mapY][mapX].mouseClick_spot(mouseX, mouseY);
+					let click_node_info = {"mapY" : mapY, "mapX" : mapX}
+					if (click_node != null) {
+						if (__click_mode == 1) {
+							console.log("출발 위치 재설정");
+							pathfinder.start = click_node;
+							start = click_node;
+						} else if (__click_mode == 2) {
+							console.log("도착 위치 재설정");
+							pathfinder.end = click_node;
+							end = click_node;
+						} else if (__click_mode == 3) {
+							console.log("벽토글");
+							pathfinder.map[z].grid[mapY][mapX].wall = !pathfinder.map[z].grid[mapY][mapX].wall;
+							console.log(pathfinder.map[z].grid[mapY][mapX].wall);
+							mapGraphic = null;
+						} else if (__click_mode == 4) {
+							let swi = false;
+				
+							for (var i = 0; i < pathfinder.closedSet.length; i++) {
+								let node = pathfinder.closedSet[i];
 								if (node === click_node) {
-									console.log("open -> close")
-									pathfinder.openSet.splice(i, 1);
-									pathfinder.closedSet.push(node)
+									console.log("close -> nothing")
+									pathfinder.closedSet.splice(i, 1);
 									swi = true;
 									break;
 								}
+					
+							}
+							if(swi == false) {
+								for (var i = 0; i < pathfinder.openSet.length; i++) {
+									let node = pathfinder.openSet[i];
+									if (node === click_node) {
+										console.log("open -> close")
+										pathfinder.openSet.splice(i, 1);
+										pathfinder.closedSet.push(node)
+										swi = true;
+										break;
+									}
+									
+								}
+							}
+							if (swi == false) {
+								console.log("nothing -> open")
+								pathfinder.openSet.push(click_node)
+							}
+
+						} else if (__click_mode == 5) {
+							console.log("B.")
+							click_node.Bright = true;
+
+						} else if (__click_mode == 6) {
+							console.log("BBBBright!!!!")
+							Bright2.push(click_node);
+
+						} else if (__click_mode == 7) {
+							//var mode7_node; 전역변수로...
+							if(mode7_lock == undefined || mode7_lock == 1) mode7_lock = 0;
+							else mode7_lock++;
+							
+							console.error("mode7_lock " + mode7_lock)
+							switch (mode7_lock) {
+								case 0:
+									mode7_node = click_node;
+									console.log("selected.");
+									break;
+								case 1:
+									console.log("changing....");
+									mode7_node.neighbors = click_node;
+									console.log("Maybe Okay");
+									break;
+								default:
+									console.error("어 뭔가 에러떴어요.")
 								
 							}
-						}
-						if (swi == false) {
-							console.log("nothing -> open")
-							pathfinder.openSet.push(click_node)
-						}
-
-          } else if (__click_mode == 5) {
-            console.log("B.")
-            click_node.Bright = true;
-
-          } else if (__click_mode == 6) {
-            console.log("BBBBright!!!!")
-            Bright2.push(click_node);
-
-          } else if (__click_mode == 7) {
-						//var mode7_node; 전역변수로...
-						if(mode7_lock == undefined || mode7_lock == 1) mode7_lock = 0;
-						else mode7_lock++;
-						
-						console.error("mode7_lock " + mode7_lock)
-						switch (mode7_lock) {
-							case 0:
-								mode7_node = click_node;
-								console.log("selected.");
-								break;
-							case 1:
-								console.log("changing....");
-								mode7_node.neighbors = click_node;
-								console.log("Maybe Okay");
-								break;
-							default:
-								console.error("어 뭔가 에러떴어요.")
 							
+						} else if (__click_mode == 8) {
+							if(click_node.Bright == 2) {
+								console.log("bright -> 0");
+							click_node.Bright = 0;
+							} else {
+							console.log("bright -> 2");
+							click_node.Bright = 2;
+							}
+							mapGraphic = null;
+						} else if (__click_mode == 9) {
+							console.log("Show your neighbors!");
+							//drawed 부분에서 if문으로 처리했습니다.
+						}	else if (__click_mode == 10) {
+							console.log("Search this.");
+							__hard_search = click_node;
+							click_node.previous = pathfinder.lastCheckedNode;
+							step();
+						}	else if (__click_mode == 11) {
+							console.log("change lastCheckedNode.");
+							pathfinder.lastCheckedNode = click_node;
+						}	else if (__click_mode == 15) {
+							console.log(".");
 						}
 						
-					} else if (__click_mode == 8) {
-						if(click_node.Bright == 2) {
-							console.log("bright -> 0");
-						click_node.Bright = 0;
-						} else {
-						console.log("bright -> 2");
-						click_node.Bright = 2;
-						}
-						mapGraphic = null;
-					} else if (__click_mode == 9) {
-						console.log("Show your neighbors!");
-						//drawed 부분에서 if문으로 처리했습니다.
-					}	else if (__click_mode == 10) {
-						console.log("Search this.");
-						__hard_search = click_node;
-						click_node.previous = pathfinder.lastCheckedNode;
-						step();
-					}	else if (__click_mode == 11) {
-						console.log("change lastCheckedNode.");
-						pathfinder.lastCheckedNode = click_node;
-					}	else if (__click_mode == 15) {
-						console.log(".");
 					}
-					
-        }
 
-
+				}
       }
     }
 
@@ -303,21 +305,23 @@ function mapSaved() {
   let count = 0;
   for (let Row = 0; Row < mapData.getRowCount(); Row++) {
     for (let Col = 0; Col < mapData.getColumnCount(); Col++) {
-      let node = pathfinder.map.grid[Row][Col];
-      let previous_i = -1;
-      let previous_j = -1;
-      map_saveFile.addRow();
-      map_saveFile.setNum(count, 'map_i', node.i);
-      map_saveFile.setNum(count, 'map_j', node.j);
-      if (node.previous != undefined) {
-        previous_i = node.previous.i
-        previous_j = node.previous.j
-      }
-      map_saveFile.setNum(count, 'previous_i', previous_i);
-      map_saveFile.setNum(count, 'previous_j', previous_j);
+			for(let z in pathfinder.map) {
+				let node = pathfinder.map[z].grid[Row][Col];
+				let previous_i = -1;
+				let previous_j = -1;
+				map_saveFile.addRow();
+				map_saveFile.setNum(count, 'map_i', node.i);
+				map_saveFile.setNum(count, 'map_j', node.j);
+				if (node.previous != undefined) {
+					previous_i = node.previous.i
+					previous_j = node.previous.j
+				}
+				map_saveFile.setNum(count, 'previous_i', previous_i);
+				map_saveFile.setNum(count, 'previous_j', previous_j);
 
-      count++;
-    }
+				count++;
+			}
+		}
   }
   saveTable(map_saveFile, 'Maaap', 'csv');
 }

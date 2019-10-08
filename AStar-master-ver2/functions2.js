@@ -17,15 +17,17 @@ function node_connecting(routearr) {
 			let starts = [];
 			let ends = [];
 			
-			for(let j in pathfinder.map.nodes) {
-					let node = pathfinder.map.nodes[j];
-					if(node.node == start_num) starts.push(node);
-					if(node.node == end_num) ends.push(node);
-			}
-			
-			for(let j in starts) {
-				for(let k in ends) {
-					starts[j].node_neighbors.push([ends[k], g_num]);
+			for(let z in pathfinder.map) {
+				for(let j in pathfinder.map[z].nodes) {
+						let node = pathfinder.map[z].nodes[j];
+						if(node.node == start_num) starts.push(node);
+						if(node.node == end_num) ends.push(node);
+				}
+				
+				for(let j in starts) {
+					for(let k in ends) {
+						starts[j].node_neighbors.push([ends[k], g_num]);
+					}
 				}
 			}
 			
@@ -39,6 +41,6 @@ function node_connecting(routearr) {
 
 //콘솔에 치기 귀찮을 때 
 function tempF() {
-	start = pathfinder.map.grid[1][1]
-	end = pathfinder.map.grid[rows - 2][cols - 3]
+	//start = pathfinder.map.grid[1][1]
+	//end = pathfinder.map.grid[rows - 2][cols - 3]
 }

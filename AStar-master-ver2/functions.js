@@ -168,7 +168,7 @@ function searchStep() {
 var path;
 var path_d;
 var path_swi = false;
-function drawed(pathfinder) {
+function drawed() {
   background(245);
 
   doGUI();
@@ -195,19 +195,21 @@ function drawed(pathfinder) {
   if (infoNode == null) {
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        let node = pathfinder.map.grid[r][c];
-        if (mouseInNode(node)) {
-          infoNode = node;
-          infoNode.show(color(0, 0, 0, 255));
-          if (infoNode.wall == true) {
-            text("status = wall", 730, 30);
-          } else {
-            text("status = nothing", 730, 30);
-          }
-					
-          break;
-        }
-      }
+				for(let z in pathfinder.map) {
+					let node = pathfinder.map[z].grid[r][c];
+					if (mouseInNode(node)) {
+						infoNode = node;
+						infoNode.show(color(0, 0, 0, 255));
+						if (infoNode.wall == true) {
+							text("status = wall", 730, 30);
+						} else {
+							text("status = nothing", 730, 30);
+						}
+						
+						break;
+					}
+				}
+			}
     }
   }
   
@@ -282,23 +284,28 @@ function drawed(pathfinder) {
 
 var mapGraphic = null;
 function drawMap() {
+	for(let z in pathfinder.map) {
+	
   if (__mapOn == true) image(img1, gamemap.x, gamemap.y);
   if (mapGraphic == null) {
-    for (var i = 0; i < rows; i++) {
-      for (var j = 0; j < cols; j++) {
-        if (pathfinder.map.grid[i][j].wall) {
-          pathfinder.map.grid[i][j].show(color(255));
-        }
-				if (pathfinder.map.grid[i][j].Bright > 1) pathfinder.map.grid[i][j].show(color(255));
-      }
+		
+			for (var i = 0; i < rows; i++) {
+				for (var j = 0; j < cols; j++) {
+					if (pathfinder.map[z].grid[i][j].wall) {
+						pathfinder.map[z].grid[i][j].show(color(255));
+					}
+					if (pathfinder.map[z].grid[i][j].Bright > 1) pathfinder.map[z].grid[i][j].show(color(255));
+				}
+			}
+			//mapGraphic = get(gamemap.x, gamemap.y, gamemap.w, gamemap.h);
+			mapGraphic = get(pathfinder.map[z].x, pathfinder.map[z].y, pathfinder.map[z].w, pathfinder.map[z].h);
     }
-    mapGraphic = get(gamemap.x, gamemap.y, gamemap.w, gamemap.h);
+		//image(mapGraphic, gamemap.x, gamemap.y);
+		image(mapGraphic, pathfinder.map[z].x, pathfinder.map[z].y);
+		// image(img1, gamemap.x, gamemap.y);
+		//    console.log('mapGrapic');
+		text("He! ", 10, 90);
   }
-
-  image(mapGraphic, gamemap.x, gamemap.y);
-  // image(img1, gamemap.x, gamemap.y);
-  //    console.log('mapGrapic');
-  text("He! ", 10, 90);
 }
 
 var infoNode = null;
