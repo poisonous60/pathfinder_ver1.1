@@ -234,7 +234,7 @@ function drawed() {
     text("Bright = " + infoNode.Bright, 900, 70);
 		text("index = " + infoNode.index, 900, 90);
 		text("neighbors = " + infoNode.neighbors, 1000, 90);
-		text("node = " + infoNode.node, 1050, 30);
+		text("node = " + infoNode.__node, 1050, 30);
 	
 	//궤적 나오게 하는거. 하얀색 그거.
 	let pre_arr = [];
@@ -285,21 +285,23 @@ function drawed() {
 var mapGraphic = null;
 function drawMap() {
 	for(let z in pathfinder.map) {
-	
-  if (__mapOn == true) image(img1, gamemap.x, gamemap.y);
-  if (mapGraphic == null) {
+		if (__mapOn == true) image(img1, gamemap.x, gamemap.y);
 		
+		if (mapGraphic == null) {
 			for (var i = 0; i < rows; i++) {
 				for (var j = 0; j < cols; j++) {
 					if (pathfinder.map[z].grid[i][j].wall) {
 						pathfinder.map[z].grid[i][j].show(color(255));
 					}
 					if (pathfinder.map[z].grid[i][j].Bright > 1) pathfinder.map[z].grid[i][j].show(color(255));
+					if (nodeSearch) {
+						for (let k in pathfinder.map[z].nodes) pathfinder.map[z].nodes[k].show();
+					}
 				}
 			}
 			//mapGraphic = get(gamemap.x, gamemap.y, gamemap.w, gamemap.h);
 			mapGraphic = get(pathfinder.map[z].x, pathfinder.map[z].y, pathfinder.map[z].w, pathfinder.map[z].h);
-    }
+		}
 		//image(mapGraphic, gamemap.x, gamemap.y);
 		image(mapGraphic, pathfinder.map[z].x, pathfinder.map[z].y);
 		// image(img1, gamemap.x, gamemap.y);

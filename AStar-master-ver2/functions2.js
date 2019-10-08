@@ -20,8 +20,8 @@ function node_connecting(routearr) {
 			for(let z in pathfinder.map) {
 				for(let j in pathfinder.map[z].nodes) {
 						let node = pathfinder.map[z].nodes[j];
-						if(node.node == start_num) starts.push(node);
-						if(node.node == end_num) ends.push(node);
+						if(node.__node == start_num) starts.push(node);
+						if(node.__node == end_num) ends.push(node);
 				}
 				
 				for(let j in starts) {
@@ -38,9 +38,14 @@ function node_connecting(routearr) {
 	}
 }
 
+function toggleNodeSearch() {
+  nodeSearch = !nodeSearch;
+	mapGraphic = null;
+}
 
 //콘솔에 치기 귀찮을 때 
+var gamemap2;
 function tempF() {
-	//start = pathfinder.map.grid[1][1]
-	//end = pathfinder.map.grid[rows - 2][cols - 3]
+	gamemap2 = new MyMap_School(cols, rows, 10, 100 + 1098 * 0.5, 1498 * 0.5, 1098 * 0.5, allowDiagonals, percentWalls, restartIndex);
+	pathfinder.map.push(gamemap2);
 }

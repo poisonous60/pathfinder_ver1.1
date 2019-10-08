@@ -19,7 +19,7 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index, node=undef
 	this.height = height;
 	this.Bright = Bright;
 	this.index = index;
-	this.node = node
+	this.__node = node
 	this.node_neighbors = [];
 	
 	// f, g, and h values for A*
@@ -113,10 +113,11 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index, node=undef
 					ellipse(this.x, this.y, this.width, this.height);
 			}
 			
-			if(this.node != undefined) {
+			if(this.__node != undefined) {
 				push();
-				stroke(4);
-				noFill();
+				stroke(0);
+				//noFill();
+				fill(255, 0, 0);
 				rectMode(CORNER);
 				rect(this.x + this.width * 0.15, this.y + this.height * 0.15, this.width * 0.7, this.height * 0.7);
 				pop();

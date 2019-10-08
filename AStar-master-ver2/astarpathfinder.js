@@ -10,7 +10,6 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     this.start = start;
     this.end = end;
     this.allowDiagonals = allowDiagonals;
-		
     //This function returns a measure of aesthetic preference for
     //use when ordering the openSet. It is used to prioritise
     //between equal standard heuristic scores. It can therefore
@@ -58,8 +57,28 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     //returns 1 if goal reached
     //returns -1 if no solution
     this.step = function() {
-				
-        if (this.openSet.length > 0) {
+				if(nodeSearch) {
+					if (this.openSet.length > 0) {
+						
+						//openSet 중 current 고르기(이건 그냥 완전탐색해도 시간 남아돌 것 같은데
+						
+						if (current === this.end) {
+								console.log("DONE!");
+								return 1;
+						}
+						
+						//current를 closeSet에 넣기
+						
+						//current의 neighbors, g, h, f값 계산, openSet 넣고. g값 더 작으면 previous 바꾸기. return 0;
+						
+						//
+						
+					} else {
+						console.log('no solution');
+						return -1;
+					}
+				} else {
+						if (this.openSet.length > 0) {
 						var current = null;
 						
 						if(__hard_search != null) {
@@ -96,56 +115,58 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
 							current = this.openSet[winner];
 						}						
 						
-            this.lastCheckedNode = current;
+						this.lastCheckedNode = current;
 
-            // Did I finish?
-            if (current === this.end) {
-                console.log("DONE!");
-                return 1;
-            }
+						// Did I finish?
+						if (current === this.end) {
+								console.log("DONE!");
+								return 1;
+						}
 
-            // Best option moves from openSet to closedSet
-            this.removeFromArray(this.openSet, current);
-            this.closedSet.push(current);
+						// Best option moves from openSet to closedSet
+						this.removeFromArray(this.openSet, current);
+						this.closedSet.push(current);
 
-            // Check all the neighbors
-            var neighbors = current.getNeighbors();
+						// Check all the neighbors
+						var neighbors = current.getNeighbors();
 						if(neighbors.length == undefined) {
 							let temp_nei = neighbors;
 							neighbors = [];
 							neighbors.push(temp_nei);
 						}
-            for (var i = 0; i < neighbors.length; i++) {
-                var neighbor = neighbors[i];
+						for (var i = 0; i < neighbors.length; i++) {
+								var neighbor = neighbors[i];
 
-                // Valid next spot?
-                if (!this.closedSet.includes(neighbor)) {
-                    // Is this a better path than before?
-                    var tempG = current.g + this.Better_heuristic(neighbor, current, neighbor.Bright);
+								// Valid next spot?
+								if (!this.closedSet.includes(neighbor)) {
+										// Is this a better path than before?
+										var tempG = current.g + this.Better_heuristic(neighbor, current, neighbor.Bright);
 
-                    // Is this a better path than before?
-                    if (!this.openSet.includes(neighbor)) {
-                        this.openSet.push(neighbor);
-                    } else if (tempG >= neighbor.g) {
-                        // No, it's not a better path
-                        continue;
-                    }
+										// Is this a better path than before?
+										if (!this.openSet.includes(neighbor)) {
+												this.openSet.push(neighbor);
+										} else if (tempG >= neighbor.g) {
+												// No, it's not a better path
+												continue;
+										}
 
-                    neighbor.g = tempG;
-                    neighbor.h = this.Better_heuristic(neighbor, this.end, false);
-                    if (!allowDiagonals) {
-                        neighbor.vh = this.visualDist(neighbor, this.end);
-                    }
-                    neighbor.f = neighbor.g + neighbor.h;
-                    neighbor.previous = current;
-                }
+										neighbor.g = tempG;
+										neighbor.h = this.Better_heuristic(neighbor, this.end, false);
+										if (!allowDiagonals) {
+												neighbor.vh = this.visualDist(neighbor, this.end);
+										}
+										neighbor.f = neighbor.g + neighbor.h;
+										neighbor.previous = current;
+								}
 
-            }
-            return 0;
-            // Uh oh, no solution
-        } else {
-            console.log('no solution');
-            return -1;
-        }
+						}
+						return 0;
+						// Uh oh, no solution
+					} else {
+							console.log('no solution');
+							return -1;
+					}
+
+				}
     }
 }

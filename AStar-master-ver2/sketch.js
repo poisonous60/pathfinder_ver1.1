@@ -59,6 +59,7 @@ var runPauseButton;
 var start;
 var end;
 var restartIndex = 0;
+var nodeSearch = true;
 
 
 function initaliseSearchExample() {
@@ -116,6 +117,7 @@ function setup() {
   uiElements.push(new Button("step", 70, 10, 50, 30, step));
   uiElements.push(new Button("restart", 130, 10, 50, 30, restart));
   uiElements.push(new SettingBox("AllowDiag", 200, 20, allowDiagonals, toggleDiagonals));
+	uiElements.push(new SettingBox("nodeSearch", 150, 75, nodeSearch, toggleNodeSearch));
   uiElements.push(new Button("saved", 250, 60, 50, 30, saved));
   uiElements.push(new Button("brightSaved", 300, 60, 80, 30, brightSaved));
   uiElements.push(new Button("mapSaved", 300, 30, 70, 30, mapSaved)) //전체맵의 previous 포함.

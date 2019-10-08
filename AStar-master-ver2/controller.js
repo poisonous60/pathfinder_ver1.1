@@ -90,6 +90,23 @@ function keyTyped() {
 }
 var mode7_lock;
 var mode7_node;
+// 0 : 아무 효과 없다
+// 1 : 출발 지정 (openSet에 이미 넣어진 건 안 없어짐)
+// 2 : 도착 지정
+// 3 : 벽 온오프
+// 4 : openSet -> closeSet -> nothing -> openSet ...
+// 5 : Bright값 true (아무 효과 없음. 그냥 클릭해볼 때 씀)
+// 6 : 누르면 빨간원 생김
+// 7 : 이웃노드 강제로 바꿈
+// 8 : 계단 온오프(Bright = 2)
+// 9 : 콘솔에 이웃노드 파바바바ㅏ밝
+// 10 : 노드 강제탐색. g값 계산 안되더라
+// 11 : 경로 보여줌(LastCheckedNode 바꿈)
+// 12 : 
+// 13 : 
+// 14 :
+// 15 :
+
 function mouseClicked() {
   for (let i = 0; i < uiElements.length; i++) {
     uiElements[i].mouseClick(mouseX, mouseY);
