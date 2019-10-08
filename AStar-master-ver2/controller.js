@@ -192,6 +192,8 @@ function mouseClicked() {
 					}	else if (__click_mode == 11) {
 						console.log("change lastCheckedNode.");
 						pathfinder.lastCheckedNode = click_node;
+					}	else if (__click_mode == 15) {
+						console.log(".");
 					}
 					
         }

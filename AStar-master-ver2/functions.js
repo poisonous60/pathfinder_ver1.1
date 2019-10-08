@@ -159,6 +159,8 @@ function searchStep() {
       case 0:
         status = "Still Searching"
         break;
+			default:
+				console.error("step 리턴이 없어영 : " + result);
     }
   }
 }
@@ -166,7 +168,7 @@ function searchStep() {
 var path;
 var path_d;
 var path_swi = false;
-function drawed() {
+function drawed(pathfinder) {
   background(245);
 
   doGUI();

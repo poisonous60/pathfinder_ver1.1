@@ -129,7 +129,7 @@ function setup() {
 function draw() {
 
   searchStep();
-
-  drawed();
+	
+  drawed(pathfinder);
 }
 

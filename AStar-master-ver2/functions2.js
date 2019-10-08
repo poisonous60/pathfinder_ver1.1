@@ -35,3 +35,10 @@ function node_connecting(routearr) {
 		
 	}
 }
+
+
+//콘솔에 치기 귀찮을 때 
+function tempF() {
+	start = pathfinder.map.grid[1][1]
+	end = pathfinder.map.grid[rows - 2][cols - 3]
+}
