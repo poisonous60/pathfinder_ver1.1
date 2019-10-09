@@ -295,7 +295,7 @@ function drawMap() {
 					}
 					if (pathfinder.map[z].grid[i][j].Bright > 1) pathfinder.map[z].grid[i][j].show(color(255));
 					if (nodeSearch) {
-						for (let k in pathfinder.map[z].nodes) pathfinder.map[z].nodes[k].show();
+						if(pathfinder.map[z].grid[i][j].__node) pathfinder.map[z].grid[i][j].show();
 					}
 				}
 			}

@@ -41,6 +41,17 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
         if(bright) d *= __stair_mul;
         return d;
     }
+		this.node_heuristic = function(a, b) {
+        var d;
+				/*
+        if (allowDiagonals) {
+            d = dist(a.i, a.j, b.i, b.j);
+        } else {
+            d = abs(a.i - b.i) + abs(a.j - b.j);
+        }
+				*/
+        return d;
+    }
 
     // Function to delete element from the array
     this.removeFromArray = function(arr, elt) {
@@ -57,26 +68,59 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
     //returns 1 if goal reached
     //returns -1 if no solution
     this.step = function() {
+			//노드 탐색
 				if(nodeSearch) {
 					if (this.openSet.length > 0) {
-						
+						var current = null;
 						//openSet 중 current 고르기(이건 그냥 완전탐색해도 시간 남아돌 것 같은데
+						//지금은 A* 적용 안하고 그냥 합니다...
+						var winner = 0;
 						
+						current = this.openSet[winner];
+						this.lastCheckedNode = current;
 						if (current === this.end) {
 								console.log("DONE!");
 								return 1;
 						}
-						
 						//current를 closeSet에 넣기
+						this.removeFromArray(this.openSet, current);
+						this.closedSet.push(current);
 						
 						//current의 neighbors, g, h, f값 계산, openSet 넣고. g값 더 작으면 previous 바꾸기. return 0;
-						
-						//
-						
+						var neighbors = current.getNeighbors();
+						for (var i = 0; i < neighbors.length; i++) {
+							//neighbor[0]이 spot이고, neighbor[1]에는 거리값 숫자 들어있어요.
+							var neighbor = neighbors[i];
+							console.error(neighbor);
+							// Valid next spot?
+							if (!this.closedSet.includes(neighbor[0])) {
+									// Is this a better path than before?
+									var tempG = current.g + neighbor[1];
+
+									// Is this a better path than before?
+									if (!this.openSet.includes(neighbor[0])) {
+											this.openSet.push(neighbor[0]);
+									} else if (tempG >= neighbor[0].g) {
+											// No, it's not a better path
+											continue;
+									}
+									
+									neighbor[0].g = tempG;
+									//neighbor.h = this.Better_heuristic(neighbor, this.end, false);
+									neighbor[0].h = 0;
+									neighbor[0].f = neighbor[0].g + neighbor[0].h;
+									neighbor[0].previous = current;
+							}
+							
+						}
+						return 0;
+						// Uh oh, no solution
 					} else {
 						console.log('no solution');
 						return -1;
 					}
+					
+				//맵 탐색
 				} else {
 						if (this.openSet.length > 0) {
 						var current = null;

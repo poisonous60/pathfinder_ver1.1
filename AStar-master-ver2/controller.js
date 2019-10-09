@@ -120,8 +120,19 @@ function mouseClicked() {
 					if (click_node != null) {
 						if (__click_mode == 1) {
 							console.log("출발 위치 재설정");
+							for (var i = 0; i < pathfinder.openSet.length; i++) {
+								let node = pathfinder.openSet[i];
+								if (node === start) {
+									console.log("open -> close")
+									pathfinder.openSet.splice(i, 1);
+									pathfinder.closedSet.push(node)
+									swi = true;
+									break;
+								}
+							}
 							pathfinder.start = click_node;
 							start = click_node;
+							pathfinder.openSet.push(click_node)
 						} else if (__click_mode == 2) {
 							console.log("도착 위치 재설정");
 							pathfinder.end = click_node;
@@ -142,7 +153,6 @@ function mouseClicked() {
 									swi = true;
 									break;
 								}
-					
 							}
 							if(swi == false) {
 								for (var i = 0; i < pathfinder.openSet.length; i++) {
