@@ -69,7 +69,7 @@ function initaliseSearchExample() {
 	
 	if(restartIndex == 0) {
 		let gamemaparr = [];
-		gamemap = new MyMap_School(cols, rows, 10, 100, 1498 * 1, 1098 * 1, allowDiagonals, percentWalls, restartIndex);
+		gamemap = new MyMap_School(cols, rows, 10, 100, 1000 * 1, 730 * 1, allowDiagonals, percentWalls, restartIndex);
 		gamemaparr.push(gamemap);
 		start = gamemap.grid[1][1];
 		end = gamemap.grid[rows - 2][cols - 3];
@@ -90,7 +90,7 @@ function initaliseSearchExample() {
 }
 
 function preload() {
-  if (__mapOn == true) img1 = loadImage('https://i.imgur.com/43qqEFX.png');
+  if (__mapOn == true) img1 = loadImage('https://i.imgur.com/8YN5Dmi.png');
   mapData = loadTable('map/data/mapdata_school/school_outdoor.csv', 'csv');
   if (__saveOn == true) openSet_saveFile = loadTable('saveFile/openSet.csv', 'csv', 'header');
   if (__saveOn == true) closedSet_saveFile = loadTable('saveFile/closedSet.csv', 'csv', 'header');
@@ -104,7 +104,7 @@ function setup() {
 
 
   startTime();
-  createCanvas(1600, 1300);
+  createCanvas(1600, 2000);
   console.log('A*');
 
   rows = mapData.getRowCount();

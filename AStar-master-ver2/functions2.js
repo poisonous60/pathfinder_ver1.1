@@ -46,6 +46,6 @@ function toggleNodeSearch() {
 //콘솔에 치기 귀찮을 때 
 var gamemap2;
 function tempF() {
-	gamemap2 = new MyMap_School(cols, rows, 10, 100 + 1098 * 0.5, 1498 * 0.5, 1098 * 0.5, allowDiagonals, percentWalls, restartIndex);
+	gamemap2 = new MyMap_School(cols, rows, 10, 100 + 730, 1000 * 1, 730 * 1, allowDiagonals, percentWalls, restartIndex);
 	pathfinder.map.push(gamemap2);
 }
