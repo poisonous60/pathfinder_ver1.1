@@ -115,8 +115,8 @@ function runpause(button) {
 function restart(button) {
   logTimings();
   clearTimings();
-  rows = mapData.getRowCount();
-  cols = mapData.getColumnCount();
+  rows = map1.getRowCount();
+  cols = map1.getColumnCount();
   initaliseSearchExample();
   pauseUnpause(true);
 }
@@ -193,9 +193,9 @@ function drawed() {
   
   
   if (infoNode == null) {
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-				for(let z in pathfinder.map) {
+		for(let z in pathfinder.map) {
+			for (let r = 0; r < pathfinder.map[z].rows; r++) {
+				for (let c = 0; c < pathfinder.map[z].cols; c++) {
 					let node = pathfinder.map[z].grid[r][c];
 					if (mouseInNode(node)) {
 						infoNode = node;
@@ -254,7 +254,7 @@ function drawed() {
   path = calcPath(pathfinder.lastCheckedNode);
   
   if(path_swi) drawPath(path_d) 
-  else drawPath(path);
+  drawPath(path);
   
 	//6번 빨간공
   for (let i = 0; i < Bright2.length; i++) {
@@ -282,14 +282,29 @@ function drawed() {
 	
 }
 
-var mapGraphic = null;
+var mapGraphic = [];
 function drawMap() {
+	
 	for(let z in pathfinder.map) {
+		/*
+		let img = createImage(pathfinder.map[z].w, pathfinder.map[z].h);
+		img.loadPixels();
+		for (let i = 0; i < img.width; i++) {
+			for (let j = 0; j < img.height; j++) {
+				img.set(i, j, color(0, 90, 102));
+			}
+		}
+		img.updatePixels();
+		image(img, pathfinder.map[z].x, pathfinder.map[z].y);
+		*/
+		fill(0, 90, 102, 40);
+		rect(pathfinder.map[z].x, pathfinder.map[z].y, pathfinder.map[z].w, pathfinder.map[z].h);
+		
 		if (__mapOn == true) image(img1, gamemap.x, gamemap.y);
 		
-		if (mapGraphic == null) {
-			for (var i = 0; i < rows; i++) {
-				for (var j = 0; j < cols; j++) {
+		if (mapGraphic[z] == undefined) {
+			for (var i = 0; i < pathfinder.map[z].rows; i++) {
+				for (var j = 0; j < pathfinder.map[z].cols; j++) {
 					if (pathfinder.map[z].grid[i][j].wall) {
 						pathfinder.map[z].grid[i][j].show(color(255));
 					}
@@ -300,10 +315,10 @@ function drawMap() {
 				}
 			}
 			//mapGraphic = get(gamemap.x, gamemap.y, gamemap.w, gamemap.h);
-			mapGraphic = get(pathfinder.map[z].x, pathfinder.map[z].y, pathfinder.map[z].w, pathfinder.map[z].h);
+			mapGraphic[z] = get(pathfinder.map[z].x, pathfinder.map[z].y, pathfinder.map[z].w, pathfinder.map[z].h);
 		}
 		//image(mapGraphic, gamemap.x, gamemap.y);
-		image(mapGraphic, pathfinder.map[z].x, pathfinder.map[z].y);
+		image(mapGraphic[z], pathfinder.map[z].x, pathfinder.map[z].y);
 		// image(img1, gamemap.x, gamemap.y);
 		//    console.log('mapGrapic');
 		text("He! ", 10, 90);
@@ -347,6 +362,8 @@ function calcPath(endNode) {
   var temp = endNode;
   Path.push(temp);
   while (temp.previous) {
+		if(temp.previous.warp) break;
+		
     Path.push(temp.previous);
     temp = temp.previous;
   }

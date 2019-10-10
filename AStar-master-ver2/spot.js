@@ -37,6 +37,8 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index, node=undef
 
 	// Did the maze algorithm already visit me?
 	this.visited = false;
+	this.warp = false;
+	
 
 	//__click_mode용
 	this.mouseClick_spot = function(x, y) {

@@ -1,4 +1,4 @@
-function MyMap_School(cols, rows, x, y, w, h, allowDiagonals, wallRatio, index) {
+function MyMap_School(mapData, cols, rows, x, y, w, h, allowDiagonals, wallRatio, index) {
   this.cols = cols;
   this.rows = rows;
   this.x = x;

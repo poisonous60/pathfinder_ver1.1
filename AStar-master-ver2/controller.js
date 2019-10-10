@@ -33,7 +33,7 @@ function keyTyped() {
       drawed();
     }
 		*/
-		mapGraphic = null;
+		mapGraphic = [];
   }
   if (key === 'r') {
     console.log('세이브했어요!');
@@ -69,9 +69,9 @@ function keyTyped() {
     console.log('d : drawPath()');
 	path_swi = !path_swi;
 	console.log("path_swi " + path_swi); 
-	for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-				for(let z in pathfinder.map) {
+	for(let z in pathfinder.map) {
+		for (let r = 0; r < rows; r++) {
+				for (let c = 0; c < cols; c++) {
 					let node = pathfinder.map[z].grid[r][c];
 					if (mouseInNode(node)) {
 						path_d = calcPath(node);
@@ -112,9 +112,9 @@ function mouseClicked() {
     uiElements[i].mouseClick(mouseX, mouseY);
   }
   if (__click_mode != 0) {
-    for (let mapY = 0; mapY < mapData.getRowCount(); mapY++) {
-      for (let mapX = 0; mapX < mapData.getColumnCount(); mapX++) {
-				for(let z in pathfinder.map) {
+		for(let z in pathfinder.map) {
+			for (let mapY = 0; mapY < pathfinder.map[z].rows; mapY++) {
+				for (let mapX = 0; mapX < pathfinder.map[z].cols; mapX++) {
 					let click_node = pathfinder.map[z].grid[mapY][mapX].mouseClick_spot(mouseX, mouseY);
 					let click_node_info = {"mapY" : mapY, "mapX" : mapX}
 					if (click_node != null) {
@@ -141,7 +141,7 @@ function mouseClicked() {
 							console.log("벽토글");
 							pathfinder.map[z].grid[mapY][mapX].wall = !pathfinder.map[z].grid[mapY][mapX].wall;
 							console.log(pathfinder.map[z].grid[mapY][mapX].wall);
-							mapGraphic = null;
+							mapGraphic = [];
 						} else if (__click_mode == 4) {
 							let swi = false;
 				
@@ -209,7 +209,7 @@ function mouseClicked() {
 							console.log("bright -> 2");
 							click_node.Bright = 2;
 							}
-							mapGraphic = null;
+							mapGraphic = [];
 						} else if (__click_mode == 9) {
 							console.log("Show your neighbors!");
 							//drawed 부분에서 if문으로 처리했습니다.
@@ -226,11 +226,9 @@ function mouseClicked() {
 						}
 						
 					}
-
 				}
-      }
-    }
-
+			}
+		}
   }
 }
 
@@ -330,9 +328,9 @@ function mapSaved() {
   map_saveFile.addColumn('previous_j');
 
   let count = 0;
-  for (let Row = 0; Row < mapData.getRowCount(); Row++) {
-    for (let Col = 0; Col < mapData.getColumnCount(); Col++) {
-			for(let z in pathfinder.map) {
+	for(let z in pathfinder.map) {
+		for (let Row = 0; Row < pathfinder.map[z].rows; Row++) {
+			for (let Col = 0; Col < pathfinder.map[z].cols; Col++) {
 				let node = pathfinder.map[z].grid[Row][Col];
 				let previous_i = -1;
 				let previous_j = -1;

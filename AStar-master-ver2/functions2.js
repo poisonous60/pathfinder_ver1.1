@@ -40,12 +40,12 @@ function node_connecting(routearr) {
 
 function toggleNodeSearch() {
   nodeSearch = !nodeSearch;
-	mapGraphic = null;
+	mapGraphic = [];
 }
 
 //콘솔에 치기 귀찮을 때 
-var gamemap2;
+//var gamemap2;
 function tempF() {
-	gamemap2 = new MyMap_School(cols, rows, 10, 100 + 730, 1000 * 1, 730 * 1, allowDiagonals, percentWalls, restartIndex);
-	pathfinder.map.push(gamemap2);
+	gamemap2 = new MyMap_School(map2, map2.getColumnCount(), map2.getRowCount(), 10, 100 + 730 * 1, 1000 * 0.4, 730 * 0.4, allowDiagonals, percentWalls, restartIndex);
+	gamemaparr.push(gamemap2);
 }

@@ -2,7 +2,8 @@ var __stair_mul = 2;
 
 var img1;
 var graph;
-var mapData; //aFinal.csv 받기
+var map1; //school_outdoor.csv 받기
+var map2; //school_main.csv 받기
 // var file;
 var openSet_saveFile;
 var closedSet_saveFile;
@@ -49,6 +50,7 @@ var timings = {};
 
 
 var gamemap;
+var gamemap2;
 var uiElements = [];
 var paused = true;
 var pathfinder;
@@ -64,13 +66,18 @@ var nodeSearch = false;
 
 function initaliseSearchExample() {
 	
-  mapGraphic = null;
+  mapGraphic = [];
   //gamemap = new MapFactory().getMap(cols, rows, 10, 100, 1498, 1098, allowDiagonals, percentWalls); /////***** y 값 10->100
 	
 	if(restartIndex == 0) {
 		let gamemaparr = [];
-		gamemap = new MyMap_School(cols, rows, 10, 100, 1000 * 1, 730 * 1, allowDiagonals, percentWalls, restartIndex);
+		gamemap = new MyMap_School(map1, cols, rows, 10, 100, 1000 * 1, 730 * 1, allowDiagonals, percentWalls, restartIndex);
 		gamemaparr.push(gamemap);
+		
+		gamemap2 = new MyMap_School(map2, map2.getColumnCount(), map2.getRowCount(), 10, 100 + 730 * 1, 1000 * 0.4, 730 * 0.4, allowDiagonals, percentWalls, restartIndex);
+		gamemaparr.push(gamemap2);
+		
+		
 		start = gamemap.grid[1][1];
 		end = gamemap.grid[rows - 2][cols - 3];
 		start.wall = false;
@@ -91,7 +98,8 @@ function initaliseSearchExample() {
 
 function preload() {
   if (__mapOn == true) img1 = loadImage('https://i.imgur.com/8YN5Dmi.png');
-  mapData = loadTable('map/data/mapdata_school/school_outdoor.csv', 'csv');
+  map1 = loadTable('map/data/mapdata_school/school_outdoor.csv', 'csv');
+	map2 = loadTable('map/data/mapdata_school/school_main.csv', 'csv');
   if (__saveOn == true) openSet_saveFile = loadTable('saveFile/openSet.csv', 'csv', 'header');
   if (__saveOn == true) closedSet_saveFile = loadTable('saveFile/closedSet.csv', 'csv', 'header');
   if (__saveOn == true) map_saveFile = loadTable('saveFile/Maaap.csv', 'csv', 'header');
@@ -100,16 +108,17 @@ function preload() {
 
 function setup() {
 
-  if (__mapOn == true) console.log("mapData.length : " + mapData.length);
+  if (__mapOn == true) console.log("map1.length : " + map1.length);
 
 
   startTime();
   createCanvas(1600, 2000);
   console.log('A*');
 
-  rows = mapData.getRowCount();
-  cols = mapData.getColumnCount();
+  rows = map1.getRowCount();
+  cols = map1.getColumnCount();
   console.error("rows " + rows + "cols " + cols);
+	console.error("rows " + map2.getRowCount() + "cols " + map2.getColumnCount());
   initaliseSearchExample();
 	
 	runPauseButton = new Button("run", 10, 10, 50, 30, runpause);
@@ -121,7 +130,8 @@ function setup() {
 	uiElements.push(new Button("saved", 250, 60, 50, 30, saved));
 	uiElements.push(new Button("brightSaved", 300, 60, 80, 30, brightSaved));
 	uiElements.push(new Button("mapSaved", 300, 30, 70, 30, mapSaved)) //전체맵의 previous 포함.		
-
+	
+	
 	graph = refine_graph(graph);
 	console.error(graph);
 	node_connecting(graph);
