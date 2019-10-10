@@ -91,11 +91,10 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
 						for (var i = 0; i < neighbors.length; i++) {
 							//neighbor[0]이 spot이고, neighbor[1]에는 거리값 숫자 들어있어요.
 							var neighbor = neighbors[i];
-							console.error(neighbor);
 							// Valid next spot?
 							if (!this.closedSet.includes(neighbor[0])) {
 									// Is this a better path than before?
-									var tempG = current.g + neighbor[1];
+									var tempG = current.g + parseInt(neighbor[1]);
 
 									// Is this a better path than before?
 									if (!this.openSet.includes(neighbor[0])) {

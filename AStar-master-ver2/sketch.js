@@ -71,10 +71,10 @@ function initaliseSearchExample() {
 	
 	if(restartIndex == 0) {
 		let gamemaparr = [];
-		gamemap = new MyMap_School(map1, cols, rows, 10, 100, 1000 * 1, 730 * 1, allowDiagonals, percentWalls, restartIndex);
+		gamemap = new MyMap_School(map1, cols, rows, 10, 100, 1000 * 1, 730 * 1, allowDiagonals, percentWalls, restartIndex++);
 		gamemaparr.push(gamemap);
 		
-		gamemap2 = new MyMap_School(map2, map2.getColumnCount(), map2.getRowCount(), 10, 100 + 730 * 1, 1000 * 0.4, 730 * 0.4, allowDiagonals, percentWalls, restartIndex);
+		gamemap2 = new MyMap_School(map2, map2.getColumnCount(), map2.getRowCount(), 10, 100 + 730 * 1, 1000 * 0.4, 730 * 0.4, allowDiagonals, percentWalls, restartIndex++);
 		gamemaparr.push(gamemap2);
 		
 		

@@ -226,7 +226,7 @@ function drawed() {
     text("j = " + infoNode.j, 730, 70);
 		//text("previous = " + infoNode.previous, 900, 30);
 		if(infoNode.previous == undefined) text("previous = undefined", 900, 30);
-		else text("previous = " + "[" + infoNode.previous.i + "][" + infoNode.previous.j + "]" , 900, 30);
+		else text("previous = " + "[" + infoNode.previous.i + "][" + infoNode.previous.j + "] - " + infoNode.previous.index , 900, 30);
     // text("status = ", 730, 30);
 
     text("__click_mode = " + __click_mode, 730, 90);
@@ -236,26 +236,29 @@ function drawed() {
 		text("neighbors = " + infoNode.neighbors, 1000, 90);
 		text("node = " + infoNode.__node, 1050, 30);
 	
-	//궤적 나오게 하는거. 하얀색 그거.
-	let pre_arr = [];
-	let pre_index = 155;
-	let info_pre = infoNode.previous;
-	
-	while (info_pre) {
-		pre_arr.push(info_pre);
-		info_pre = info_pre.previous;
-	}
-	//if(infoNode.previous != undefined) infoNode.previous.show(color(55));
-	for(let i in pre_arr) {
-		pre_arr[i].show(color(pre_index -= 1));
-	}		
+		//궤적 나오게 하는거. 하얀색 그거.
+		let pre_arr = [];
+		let pre_index = 155;
+		let info_pre = infoNode.previous;
+		
+		while (info_pre) {
+			pre_arr.push(info_pre);
+			info_pre = info_pre.previous;
+		}
+		//if(infoNode.previous != undefined) infoNode.previous.show(color(55));
+		for(let i in pre_arr) {
+			pre_arr[i].show(color(pre_index -= 1));
+		}		
   }
   
+	/*
   path = calcPath(pathfinder.lastCheckedNode);
   
-  if(path_swi) drawPath(path_d) 
+  if(path_swi) drawPath(path_d);
   drawPath(path);
-  
+  */
+	funcPath(pathfinder.lastCheckedNode);
+	
 	//6번 빨간공
   for (let i = 0; i < Bright2.length; i++) {
 		push();
@@ -279,7 +282,6 @@ function drawed() {
 			}
 		}
 	}
-	
 }
 
 var mapGraphic = [];
@@ -354,20 +356,24 @@ function infoNode_check() {
 }
 
 
-
+/*
 function calcPath(endNode) {
   startTime();
   // Find the path by working backwards
   var Path = [];
   var temp = endNode;
   Path.push(temp);
-  while (temp.previous) {
-		if(temp.previous.warp) break;
-		
-    Path.push(temp.previous);
-    temp = temp.previous;
-  }
-  recordTime("Calc Path");
+	while(temp.previous != undefined) {
+		while (temp.previous) {
+			Path.push(temp.previous);
+			if(temp.previous.warp) {
+				temp = temp.previous;
+				break;
+			}
+			temp = temp.previous;
+		}
+		recordTime("Calc Path");
+	}
   return Path
 }
 
@@ -382,4 +388,45 @@ function drawPath(path) {
   }
   endShape();
 }
+*/
+function calcPath(endNode) {
+  startTime();
+  // Find the path by working backwards
+  var Path = [];
+  var temp = endNode;
+  Path.push(temp);
+	while (temp.previous) {
+		Path.push(temp.previous);
+		if(temp.previous.warp) {
+			temp = temp.previous;
+			break;
+		}
+		temp = temp.previous;
+	}
+	recordTime("Calc Path");
+  return [Path, temp.previous];
+}
 
+function drawPath(path, c = 200) {
+  // Drawing path as continuous line
+  noFill();
+  stroke(255, 0, c);
+  strokeWeight(gamemap.w / gamemap.cols / 2);
+  beginShape();
+  for (var i = 0; i < path.length; i++) {
+    vertex(path[i].x + path[i].width / 2, path[i].y + path[i].height / 2);
+  }
+  endShape();
+}
+
+//drawPath랑 calcPath 합침
+function funcPath(endNode) {
+	//let c = 255;
+	let n = calcPath(endNode);
+	drawPath(n[0], 200);
+	while (n[1] != undefined) {
+		n = calcPath(n[1]);
+		//drawPath(n[0], c -= 50);
+		drawPath(n[0]);
+	} 
+}

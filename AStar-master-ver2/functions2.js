@@ -3,25 +3,35 @@ function refine_graph(txtarr) {
 	let result = [];
 	for(let i in txtarr) {
 		let temp = txtarr[i]
-		result[i] = temp.split(';')[0].split('-');
+		result[i] = temp.split(';')[0].split(':');
+		result[i][0] = result[i][0].split('-');
+		
 	}
 	return result;
 }
 
 function node_connecting(routearr) {
 	for(let i in routearr) {
-		if(routearr[i].length == 3) {
-			let start_num = routearr[i][0];
-			let end_num = routearr[i][1];
-			let g_num = routearr[i][2];
+		if(routearr[i][0].length == 3) {
+			let start_num = routearr[i][0][0];
+			let end_num = routearr[i][0][1];
+			let g_num = routearr[i][0][2];
+			let isWarp = false;
+			if(routearr[i][1] == 'w') isWarp = true;
+			
 			let starts = [];
 			let ends = [];
+			
+			
 			
 			for(let z in pathfinder.map) {
 				for(let j in pathfinder.map[z].nodes) {
 						let node = pathfinder.map[z].nodes[j];
 						if(node.__node == start_num) starts.push(node);
-						if(node.__node == end_num) ends.push(node);
+						if(node.__node == end_num) {
+							ends.push(node);
+							node.warp = isWarp;
+						}
 				}
 				
 				for(let j in starts) {

@@ -70,8 +70,8 @@ function keyTyped() {
 	path_swi = !path_swi;
 	console.log("path_swi " + path_swi); 
 	for(let z in pathfinder.map) {
-		for (let r = 0; r < rows; r++) {
-				for (let c = 0; c < cols; c++) {
+		for (let r = 0; r < pathfinder.map[z].rows; r++) {
+				for (let c = 0; c < pathfinder.map[z].cols; c++) {
 					let node = pathfinder.map[z].grid[r][c];
 					if (mouseInNode(node)) {
 						path_d = calcPath(node);
@@ -194,6 +194,7 @@ function mouseClicked() {
 								case 1:
 									console.log("changing....");
 									mode7_node.neighbors = click_node;
+									click_node.warp = true;
 									console.log("Maybe Okay");
 									break;
 								default:
