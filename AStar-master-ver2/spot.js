@@ -128,6 +128,15 @@ function Spot(i, j, x, y, width, height, isWall, grid, Bright, index, node=undef
 	}
 
 	this.getNeighbors = function() {
+		
+		if (!this.neighbors) {
+				this.populateNeighbors();
+		}
+		return this.neighbors;
+	}
+	
+	
+	this.getNodeNeighbors = function() {
 		if(this.__node) {
 			return this.node_neighbors;
 		} else {

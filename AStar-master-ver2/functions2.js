@@ -2,9 +2,11 @@
 function refine_graph(txtarr) {
 	let result = [];
 	for(let i in txtarr) {
-		let temp = txtarr[i]
-		result[i] = temp.split(';')[0].split(':');
-		result[i][0] = result[i][0].split('-');
+		let temp = txtarr[i] // 'A-B-C:W;!@#$'
+		result[i] = temp.split(';')[0].split(':'); // result[i] = ['A-B-C', '']
+		result[i][0] = result[i][0].split('-'); // result[i][0] = ['A', 'B', 'C']
+		//result[i][0][0] = result[i][0][0].substr(1); 
+		//result[i][0][1] = result[i][0][1].substr(1);
 		
 	}
 	return result;
@@ -58,4 +60,38 @@ function toggleNodeSearch() {
 function tempF() {
 	gamemap2 = new MyMap_School(map2, map2.getColumnCount(), map2.getRowCount(), 10, 100 + 730 * 1, 1000 * 0.4, 730 * 0.4, allowDiagonals, percentWalls, restartIndex);
 	gamemaparr.push(gamemap2);
+}
+
+function neighborsChecked(C, P) {
+	var neighbors = C.getNeighbors();
+	if(neighbors.length == undefined) {
+		let temp_nei = neighbors;
+		neighbors = [];
+		neighbors.push(temp_nei);
+	}
+	for (var i = 0; i < neighbors.length; i++) {
+			var neighbor = neighbors[i];
+
+			// Valid next spot?
+			if (!P.closedSet.includes(neighbor)) {
+					// Is this a better path than before?
+					var tempG = C.g + P.Better_heuristic(neighbor, C, neighbor.Bright);
+
+					// Is this a better path than before?
+					if (!P.openSet.includes(neighbor)) {
+							P.openSet.push(neighbor);
+					} else if (tempG >= neighbor.g) {
+							// No, it's not a better path
+							continue;
+					}
+
+					neighbor.g = tempG;
+					neighbor.h = P.Better_heuristic(neighbor, P.end, false);
+					if (!allowDiagonals) {
+							neighbor.vh = P.visualDist(neighbor, P.end);
+					}
+					neighbor.f = neighbor.g + neighbor.h;
+					neighbor.previous = C;
+			}
+	}
 }

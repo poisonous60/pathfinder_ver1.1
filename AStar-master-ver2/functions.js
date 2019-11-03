@@ -191,94 +191,95 @@ function drawed() {
 
   fill(0);
   
-  
-  if (infoNode == null) {
-		for(let z in pathfinder.map) {
-			for (let r = 0; r < pathfinder.map[z].rows; r++) {
-				for (let c = 0; c < pathfinder.map[z].cols; c++) {
-					let node = pathfinder.map[z].grid[r][c];
-					if (mouseInNode(node)) {
-						infoNode = node;
-						infoNode.show(color(0, 0, 0, 255));
-						if (infoNode.wall == true) {
-							text("status = wall", 730, 30);
-						} else {
-							text("status = nothing", 730, 30);
+	text("__click_mode = " + __click_mode, 730, 90);
+  if(__click_mode != 0) {
+		if (infoNode == null) {
+			for(let z in pathfinder.map) {
+				for (let r = 0; r < pathfinder.map[z].rows; r++) {
+					for (let c = 0; c < pathfinder.map[z].cols; c++) {
+						let node = pathfinder.map[z].grid[r][c];
+						if (mouseInNode(node)) {
+							infoNode = node;
+							infoNode.show(color(0, 0, 0, 255));
+							if (infoNode.wall == true) {
+								text("status = wall", 730, 30);
+							} else {
+								text("status = nothing", 730, 30);
+							}
+							
+							break;
 						}
-						
-						break;
 					}
 				}
 			}
-    }
-  }
-  
-  if (infoNode != null) {
-    text("f = " + infoNode.f, 430, 30);
-    text("g = " + infoNode.g, 430, 50);
-    text("h = " + infoNode.h, 430, 70);
-    text("vh = " + infoNode.vh, 430, 90);
-    text("x = " + infoNode.x, 580, 30);
-    text("y = " + infoNode.y, 580, 50);
-    text("width = " + infoNode.width, 580, 70);
-    text("height = " + infoNode.height, 580, 90);
-    text("i = " + infoNode.i, 730, 50);
-    text("j = " + infoNode.j, 730, 70);
-		//text("previous = " + infoNode.previous, 900, 30);
-		if(infoNode.previous == undefined) text("previous = undefined", 900, 30);
-		else text("previous = " + "[" + infoNode.previous.i + "][" + infoNode.previous.j + "] - " + infoNode.previous.index , 900, 30);
-    // text("status = ", 730, 30);
-
-    text("__click_mode = " + __click_mode, 730, 90);
-		text("status2 = " + infoNode.stats, 900, 50);
-    text("Bright = " + infoNode.Bright, 900, 70);
-		text("index = " + infoNode.index, 900, 90);
-		text("neighbors = " + infoNode.neighbors, 1000, 90);
-		text("node = " + infoNode.__node, 1050, 30);
-	
-		//궤적 나오게 하는거. 하얀색 그거.
-		let pre_arr = [];
-		let pre_index = 155;
-		let info_pre = infoNode.previous;
-		
-		while (info_pre) {
-			pre_arr.push(info_pre);
-			info_pre = info_pre.previous;
 		}
-		//if(infoNode.previous != undefined) infoNode.previous.show(color(55));
-		for(let i in pre_arr) {
-			pre_arr[i].show(color(pre_index -= 1));
-		}		
-  }
-  
-	/*
-  path = calcPath(pathfinder.lastCheckedNode);
-  
-  if(path_swi) drawPath(path_d);
-  drawPath(path);
-  */
-	funcPath(pathfinder.lastCheckedNode);
-	
-	//6번 빨간공
-  for (let i = 0; i < Bright2.length; i++) {
-		push();
-		let node = Bright2[i];
-		noStroke();
-		ellipseMode(CORNER);
-    fill(255, 0, 0);
-    ellipse(node.x, node.y, node.width * 2, node.height * 2);
-		pop();
-	}
-	
-	if(infoNode != undefined) {
-		if(__click_mode == 9) {
-			if(infoNode.neighbors == undefined) {
-				infoNode.show(255, 255, 0, 40);
-				console.log(infoNode.getNeighbors());
-			} else {
-				console.log("infoNode.neighbors.length " + infoNode.neighbors.length)
-				//for(let i = 0; i < infoNode.neighbors.length; i++) {
-				//}
+		
+		if (infoNode != null) {
+			text("f = " + infoNode.f, 430, 30);
+			text("g = " + infoNode.g, 430, 50);
+			text("h = " + infoNode.h, 430, 70);
+			text("vh = " + infoNode.vh, 430, 90);
+			text("x = " + infoNode.x, 580, 30);
+			text("y = " + infoNode.y, 580, 50);
+			text("width = " + infoNode.width, 580, 70);
+			text("height = " + infoNode.height, 580, 90);
+			text("i = " + infoNode.i, 730, 50);
+			text("j = " + infoNode.j, 730, 70);
+			//text("previous = " + infoNode.previous, 900, 30);
+			if(infoNode.previous == undefined) text("previous = undefined", 900, 30);
+			else text("previous = " + "[" + infoNode.previous.i + "][" + infoNode.previous.j + "] - " + infoNode.previous.index , 900, 30);
+			// text("status = ", 730, 30);
+
+			text("status2 = " + infoNode.stats, 900, 50);
+			text("Bright = " + infoNode.Bright, 900, 70);
+			text("index = " + infoNode.index, 900, 90);
+			text("neighbors = " + infoNode.neighbors, 1000, 90);
+			text("node = " + infoNode.__node, 1050, 30);
+		
+			//궤적 나오게 하는거. 하얀색 그거.
+			let pre_arr = [];
+			let pre_index = 155;
+			let info_pre = infoNode.previous;
+			
+			while (info_pre) {
+				pre_arr.push(info_pre);
+				info_pre = info_pre.previous;
+			}
+			//if(infoNode.previous != undefined) infoNode.previous.show(color(55));
+			for(let i in pre_arr) {
+				pre_arr[i].show(color(pre_index -= 1));
+			}		
+		}
+		
+		/*
+		path = calcPath(pathfinder.lastCheckedNode);
+		
+		if(path_swi) drawPath(path_d);
+		drawPath(path);
+		*/
+		funcPath(pathfinder.lastCheckedNode);
+		
+		//6번 빨간공
+		for (let i = 0; i < Bright2.length; i++) {
+			push();
+			let node = Bright2[i];
+			noStroke();
+			ellipseMode(CORNER);
+			fill(255, 0, 0);
+			ellipse(node.x, node.y, node.width * 2, node.height * 2);
+			pop();
+		}
+		
+		if(infoNode != undefined) {
+			if(__click_mode == 9) {
+				if(infoNode.neighbors == undefined) {
+					infoNode.show(255, 255, 0, 40);
+					console.log(infoNode.getNeighbors());
+				} else {
+					console.log("infoNode.neighbors.length " + infoNode.neighbors.length)
+					//for(let i = 0; i < infoNode.neighbors.length; i++) {
+					//}
+				}
 			}
 		}
 	}

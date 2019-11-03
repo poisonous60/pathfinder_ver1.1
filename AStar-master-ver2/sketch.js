@@ -1,4 +1,6 @@
 var __stair_mul = 2;
+var __up_slope_mul = 1.3;
+var __down_slope_mul = 1.1;
 
 var img1;
 var graph;

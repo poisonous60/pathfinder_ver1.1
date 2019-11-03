@@ -86,10 +86,44 @@ function keyTyped() {
     }
     
   }
-
+	
 }
+
+var LURDMoves = [
+			[-1, 0],
+			[0, -1],
+			[1, 0],
+			[0, 1]
+];
+function keyPressed() {
+	if(__click_mode == 13 && mode13_node != undefined) {
+		if (keyCode === UP_ARROW) {
+			console.log("UP_ARROW");
+			
+			let M = mode13_node
+			let node = M.getNode(M.i + LURDMoves[0][0], M.j + LURDMoves[0][1]); //[-1, 0]
+			click_mode_10(node);
+			mode13_node = node;
+		}
+		if (keyCode === DOWN_ARROW) {
+			console.log("DOWN_ARROW");
+		}
+		if (keyCode === LEFT_ARROW) {
+			console.log("LEFT_ARROW");
+		}
+		if (keyCode === RIGHT_ARROW) {
+			console.log("RIGHT_ARROW");
+		}
+	}
+	
+}
+
 var mode7_lock;
 var mode7_node;
+var mode12_lock;
+var mode12_node;
+//var mode13_lock;
+var mode13_node;
 // 0 : 아무 효과 없다
 // 1 : 출발 지정 (openSet에 이미 넣어진 건 안 없어짐)
 // 2 : 도착 지정
@@ -102,8 +136,8 @@ var mode7_node;
 // 9 : 콘솔에 이웃노드 파바바바ㅏ밝
 // 10 : 노드 강제탐색. g값 계산 안되더라
 // 11 : 경로 보여줌(LastCheckedNode 바꿈)
-// 12 : 
-// 13 : 
+// 12 : previous 강제설정
+// 13 : 방향키로 10번 기능 사용
 // 14 :
 // 15 :
 
@@ -123,10 +157,8 @@ function mouseClicked() {
 							for (var i = 0; i < pathfinder.openSet.length; i++) {
 								let node = pathfinder.openSet[i];
 								if (node === start) {
-									console.log("open -> close")
+									console.log("open -> nothing")
 									pathfinder.openSet.splice(i, 1);
-									pathfinder.closedSet.push(node)
-									swi = true;
 									break;
 								}
 							}
@@ -215,14 +247,32 @@ function mouseClicked() {
 							console.log("Show your neighbors!");
 							//drawed 부분에서 if문으로 처리했습니다.
 						}	else if (__click_mode == 10) {
-							console.log("Search this.");
-							__hard_search = click_node;
-							click_node.previous = pathfinder.lastCheckedNode;
-							step();
+							click_mode_10(__click_mode);
 						}	else if (__click_mode == 11) {
 							console.log("change lastCheckedNode.");
 							pathfinder.lastCheckedNode = click_node;
-						}	else if (__click_mode == 15) {
+						}	else if (__click_mode == 12) {
+							if(mode12_lock == undefined || mode12_lock == 1) mode12_lock = 0;
+							else mode12_lock++;
+							
+							console.error("mode12_lock " + mode12_lock)
+							switch (mode12_lock) {
+								case 0:
+									mode12_node = click_node;
+									console.log("selected.");
+									break;
+								case 1:
+									mode12_node.previous = click_node;
+									console.log("Changed. Maybe Okay");
+									break;
+								default:
+									console.error("어 뭔가 에러떴어요.")
+							}
+						} else if (__click_mode == 13) {
+							console.log("기준 설정");
+							mode13_node = click_node;
+							
+						} else if (__click_mode == 15) {
 							console.log(".");
 						}
 						
@@ -231,6 +281,15 @@ function mouseClicked() {
 			}
 		}
   }
+}
+function click_mode_10(C) {
+	console.log("Search this.");
+	console.error("C");
+	console.error(C);
+	__hard_search = C;
+	neighborsChecked(C, pathfinder);
+	C.previous = pathfinder.lastCheckedNode;
+	step();
 }
 
 function mouseReleased() {

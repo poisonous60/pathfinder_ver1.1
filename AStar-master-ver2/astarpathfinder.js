@@ -38,7 +38,10 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
         } else {
             d = abs(a.i - b.i) + abs(a.j - b.j);
         }
-        if(bright) d *= __stair_mul;
+        if(bright == 4 && a.i - b.i > 0) d *= __down_slope_mul;
+				if(bright == 4 && a.i - b.i < 0) d *= __up_slope_mul;
+				if(bright == 3) d *= __stair_mul;
+				if(bright == 2) d *= __stair_mul;
         return d;
     }
 		this.node_heuristic = function(a, b) {
@@ -87,7 +90,7 @@ function AStarPathFinder(map, start, end, allowDiagonals) {
 						this.closedSet.push(current);
 						
 						//current의 neighbors, g, h, f값 계산, openSet 넣고. g값 더 작으면 previous 바꾸기. return 0;
-						var neighbors = current.getNeighbors();
+						var neighbors = current.getNodeNeighbors();
 						for (var i = 0; i < neighbors.length; i++) {
 							//neighbor[0]이 spot이고, neighbor[1]에는 거리값 숫자 들어있어요.
 							var neighbor = neighbors[i];
